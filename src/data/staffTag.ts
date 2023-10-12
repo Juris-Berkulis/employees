@@ -22,7 +22,7 @@ export type StaffTag<T extends StaffTagId = StaffTagId> = T extends 1 ? {
     color: '#00ae5b',
 } : never;
 
-export const staffTag: StaffTag[] = [
+export const staffTagList: StaffTag[] = [
     {
         id: 1,
         title: 'Проблемные',

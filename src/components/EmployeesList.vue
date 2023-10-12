@@ -1,6 +1,21 @@
 <script setup lang="ts">
+import { computed, type ComputedRef } from 'vue';
+import { storeToRefs } from 'pinia';
 import EmployeesListItem from '@/components/EmployeesListItem.vue';
-import { employees } from '@/data/employees';
+import { employees, type Employee } from '@/data/employees';
+import { useFilterStaffTagStore } from '@/stores/filterStaffTag';
+
+const filterStaffTagStore = useFilterStaffTagStore();
+
+const {
+    filterStaffTag,
+    isFilterStaffTagEnabled,
+} = storeToRefs(filterStaffTagStore);
+
+const employeesList: ComputedRef<Employee[]> = computed(() => {
+    if (!isFilterStaffTagEnabled.value) return employees
+    else return employees.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+});
 </script>
 
 <template>
@@ -8,7 +23,7 @@ import { employees } from '@/data/employees';
     <h1 class="employees-list__title">Список сотрудников</h1>
     <slot class="employees-list__filter-slot" name="filter" />
     <div class="employees-list__items-list">
-        <EmployeesListItem v-for="employee of employees" :key="employee.inn" :employee="employee" />
+        <EmployeesListItem v-for="employee of employeesList" :key="employee.inn" :employee="employee" />
     </div>
 </div>
 </template>

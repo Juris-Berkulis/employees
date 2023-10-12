@@ -26,7 +26,7 @@ export type Country<T extends CountryId = CountryId> = T extends 1 ? ({
     id: T,
 } & Uzbekistan<'uz'>) : never;
 
-export const country: Country[] = [
+export const countryList: Country[] = [
     {
         id: 1, 
         icon: '/images/flags/ru.png',

@@ -18,7 +18,7 @@ export type TypeContract<T extends TypeContractId = TypeContractId> = T extends 
     slug: 'kandidat',
 } : never;
 
-export const typeContract: TypeContract[] = [
+export const typeContractList: TypeContract[] = [
     {
         id: 1,
         title: 'ТД',

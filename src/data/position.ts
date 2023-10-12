@@ -11,7 +11,7 @@ export type Position<T extends PositionId = PositionId> = T extends 1 ? {
     name: 'Пекарь',
 } : never;
 
-export const position: Position[] = [
+export const positionList: Position[] = [
     {
         id: 1,
         name: 'Промышленный альпинист', 

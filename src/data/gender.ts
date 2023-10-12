@@ -16,7 +16,7 @@ export type Gender<T extends GenderId = GenderId> = T extends 1 ? ({
     id: T,
 } & Man);
 
-export const gender: Gender[] = [
+export const genderList: Gender[] = [
     {
         id: 1,
         title: 'Женский',
