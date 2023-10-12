@@ -2,6 +2,7 @@
 import { storeToRefs } from 'pinia';
 import FilterCountry from '@/components/FilterCountry.vue';
 import { useTriggerForFilters } from '@/stores/triggerForFilters';
+import FilterGender from './FilterGender.vue';
 
 const {
     triggerForSaveFilters,
@@ -21,6 +22,7 @@ const resetFilters = (): void => {
     <div class="aside__filters filters">
         <h2 class="filters__title column column_x2">Фильтр</h2>
         <FilterCountry class="filters__item column column_x1" :triggerForsaveFilter="triggerForSaveFilters" />
+        <FilterGender class="filters__item column column_x1" :triggerForsaveFilter="triggerForSaveFilters" />
         <div class="filters__btns column column_x2">
             <button class="filters__btn" @click="applyFilters">Применить</button>
             <button class="filters__btn" @click="resetFilters">Очистить</button>

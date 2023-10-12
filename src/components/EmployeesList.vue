@@ -6,10 +6,15 @@ import { employees, type Employee } from '@/data/employees';
 import { useFilterStaffTagStore } from '@/stores/filterStaffTag';
 import { useSearchEmployeesStore } from '@/stores/searchEmployees';
 import { useFilterCountryStore } from '@/stores/filterCountry';
+import { useFilterGenderStore } from '@/stores/filterGender';
 
 const {
     filterCountry,
 } = storeToRefs(useFilterCountryStore());
+
+const {
+    filterGender,
+} = storeToRefs(useFilterGenderStore());
 
 const {
     searchValue,
@@ -27,9 +32,14 @@ const employeesListWithFilteredCountry: ComputedRef<Employee[]> = computed(() =>
     else return employees
 });
 
+const employeesListWithFilteredGender: ComputedRef<Employee[]> = computed(() => {
+    if (filterGender.value) return employeesListWithFilteredCountry.value.filter((employee) => employee.gender.id === filterGender.value)
+    else return employeesListWithFilteredCountry.value
+});
+
 const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
-    if (!isFilterStaffTagEnabled.value) return employeesListWithFilteredCountry.value
-    else return employeesListWithFilteredCountry.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+    if (isFilterStaffTagEnabled.value) return employeesListWithFilteredGender.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+    else return employeesListWithFilteredGender.value
 });
 
 const employeesListWithSearch: ComputedRef<Employee[]> = computed(() => {

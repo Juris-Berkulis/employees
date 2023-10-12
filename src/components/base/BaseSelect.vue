@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import IconSelectArrow from '@/components/icons/IconSelectArrow.vue';
-import { type Country, type CountryId } from '@/data/country';
+import type { Country, CountryId } from '@/data/country';
+import type { Gender, GenderId } from '@/data/gender';
 
 interface Props {
     title: string,
     defaultValue: string,
-    optionsList: Country[],
-    select: false | CountryId,
+    optionsList: Country[] | Gender[],
+    select: false | CountryId | GenderId,
 };
 
 defineProps<Props>();
