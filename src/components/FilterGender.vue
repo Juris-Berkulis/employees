@@ -1,31 +1,18 @@
 <script setup lang="ts">
-import { ref, watch, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import BaseSelect from '@/components/base/BaseSelect.vue';
 import { genderList, type GenderId } from '@/data/gender';
+import { useSaveFilters } from '@/composables/saveFilters';
 import { useFilterGenderStore } from '@/stores/filterGender';
-import { useTriggerForFilters } from '@/stores/triggerForFilters';
-
-const {
-    triggerForSaveFilters,
-} = storeToRefs(useTriggerForFilters());
 
 const {
     filterGender,
 } = storeToRefs(useFilterGenderStore());
 
-const tracker: Ref<number> = ref(triggerForSaveFilters.value);
 const genderId: Ref<GenderId | false> = ref(false);
 
-watch(triggerForSaveFilters, () => {
-    if (triggerForSaveFilters.value > tracker.value) {
-        filterGender.value = genderId.value;
-    } else if (triggerForSaveFilters.value < tracker.value) {
-        filterGender.value = false;
-        genderId.value = false;
-    }
-    tracker.value = triggerForSaveFilters.value;
-});
+useSaveFilters(filterGender, genderId);
 </script>
 
 <template>
