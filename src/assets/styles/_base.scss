@@ -10,3 +10,15 @@
   cursor: pointer;
   transition: all 0.4s linear;
 }
+
+.input {
+  outline: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: currentColor;
+  }
+}

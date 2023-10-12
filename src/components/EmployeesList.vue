@@ -4,6 +4,11 @@ import { storeToRefs } from 'pinia';
 import EmployeesListItem from '@/components/EmployeesListItem.vue';
 import { employees, type Employee } from '@/data/employees';
 import { useFilterStaffTagStore } from '@/stores/filterStaffTag';
+import { useSearchEmployeesStore } from '@/stores/searchEmployees';
+
+const {
+    searchValue,
+} = storeToRefs(useSearchEmployeesStore());
 
 const filterStaffTagStore = useFilterStaffTagStore();
 
@@ -12,9 +17,21 @@ const {
     isFilterStaffTagEnabled,
 } = storeToRefs(filterStaffTagStore);
 
-const employeesList: ComputedRef<Employee[]> = computed(() => {
+const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
     if (!isFilterStaffTagEnabled.value) return employees
     else return employees.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+});
+
+const employeesListWithSearch: ComputedRef<Employee[]> = computed(() => {
+    return employeesListWithFilteredStaffTag.value.filter((employee) => {
+        return employee.full_name.toLowerCase().includes(searchValue.value.toLowerCase())
+    })
+});
+
+const employeesListWithSorting: ComputedRef<Employee[]> = computed(() => {
+    return [...employeesListWithSearch.value].sort((employee1, employee2) => {
+        return employee1.status.tag.id - employee2.status.tag.id
+    })
 });
 </script>
 
@@ -23,7 +40,7 @@ const employeesList: ComputedRef<Employee[]> = computed(() => {
     <h1 class="employees-list__title">Список сотрудников</h1>
     <slot class="employees-list__filter-slot" name="filter" />
     <div class="employees-list__items-list">
-        <EmployeesListItem v-for="employee of employeesList" :key="employee.inn" :employee="employee" />
+        <EmployeesListItem v-for="employee of employeesListWithSorting" :key="employee.inn" :employee="employee" />
     </div>
 </div>
 </template>
