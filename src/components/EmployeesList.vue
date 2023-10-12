@@ -7,6 +7,7 @@ import { useFilterStaffTagStore } from '@/stores/filterStaffTag';
 import { useSearchEmployeesStore } from '@/stores/searchEmployees';
 import { useFilterCountryStore } from '@/stores/filterCountry';
 import { useFilterGenderStore } from '@/stores/filterGender';
+import { useFilterPositionStore } from '@/stores/filterPosition';
 
 const {
     filterCountry,
@@ -15,6 +16,10 @@ const {
 const {
     filterGender,
 } = storeToRefs(useFilterGenderStore());
+
+const {
+    filterPosition,
+} = storeToRefs(useFilterPositionStore());
 
 const {
     searchValue,
@@ -37,9 +42,14 @@ const employeesListWithFilteredGender: ComputedRef<Employee[]> = computed(() => 
     else return employeesListWithFilteredCountry.value
 });
 
-const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
-    if (isFilterStaffTagEnabled.value) return employeesListWithFilteredGender.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+const employeesListWithFilteredPosition: ComputedRef<Employee[]> = computed(() => {
+    if (filterPosition.value) return employeesListWithFilteredGender.value.filter((employee) => employee.position.id === filterPosition.value)
     else return employeesListWithFilteredGender.value
+});
+
+const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
+    if (isFilterStaffTagEnabled.value) return employeesListWithFilteredPosition.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+    else return employeesListWithFilteredPosition.value
 });
 
 const employeesListWithSearch: ComputedRef<Employee[]> = computed(() => {

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import FilterCountry from '@/components/FilterCountry.vue';
+import FilterGender from '@/components/FilterGender.vue';
+import FilterPosition from '@/components/FilterPosition.vue';
 import { useTriggerForFilters } from '@/stores/triggerForFilters';
-import FilterGender from './FilterGender.vue';
 
 const {
     triggerForSaveFilters,
@@ -21,8 +22,9 @@ const resetFilters = (): void => {
 <aside class="aside">
     <div class="aside__filters filters">
         <h2 class="filters__title column column_x2">Фильтр</h2>
-        <FilterCountry class="filters__item column column_x1" :triggerForsaveFilter="triggerForSaveFilters" />
-        <FilterGender class="filters__item column column_x1" :triggerForsaveFilter="triggerForSaveFilters" />
+        <FilterCountry class="filters__item column column_x1" />
+        <FilterGender class="filters__item column column_x1" />
+        <FilterPosition class="filters__item column column_x2" />
         <div class="filters__btns column column_x2">
             <button class="filters__btn" @click="applyFilters">Применить</button>
             <button class="filters__btn" @click="resetFilters">Очистить</button>

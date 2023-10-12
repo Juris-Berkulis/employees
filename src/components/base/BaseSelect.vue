@@ -2,12 +2,20 @@
 import IconSelectArrow from '@/components/icons/IconSelectArrow.vue';
 import type { Country, CountryId } from '@/data/country';
 import type { Gender, GenderId } from '@/data/gender';
+import type { Position, PositionId } from '@/data/position';
 
-interface Props {
+type OptionsList = Country | Gender | Position;
+
+interface Props<T extends OptionsList = OptionsList> {
     title: string,
     defaultValue: string,
-    optionsList: Country[] | Gender[],
-    select: false | CountryId | GenderId,
+    optionsList: T[],
+    select: false | (
+        T extends Country ? CountryId : 
+        T extends Gender ? GenderId : 
+        T extends Position ? PositionId : 
+        never
+    ),
 };
 
 defineProps<Props>();
@@ -38,7 +46,7 @@ const changeSelectValue = (event: Event) => {
                 class="select__option select__option_black" 
                 v-for="option of optionsList" 
                 :value="option.id"
-            >{{ option.title }}</option>
+            >{{ (<Position>option).name || (<Country | Gender>option).title }}</option>
         </select>
         <IconSelectArrow class="select__arrow" />
     </div>

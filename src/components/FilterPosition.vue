@@ -2,8 +2,8 @@
 import { ref, watch, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import BaseSelect from '@/components/base/BaseSelect.vue';
-import { genderList, type GenderId } from '@/data/gender';
-import { useFilterGenderStore } from '@/stores/filterGender';
+import { positionList, type PositionId } from '@/data/position';
+import { useFilterPositionStore } from '@/stores/filterPosition';
 import { useTriggerForFilters } from '@/stores/triggerForFilters';
 
 const {
@@ -11,18 +11,18 @@ const {
 } = storeToRefs(useTriggerForFilters());
 
 const {
-    filterGender,
-} = storeToRefs(useFilterGenderStore());
+    filterPosition,
+} = storeToRefs(useFilterPositionStore());
 
 const tracker: Ref<number> = ref(triggerForSaveFilters.value);
-const genderId: Ref<GenderId | false> = ref(false);
+const positionId: Ref<PositionId | false> = ref(false);
 
 watch(triggerForSaveFilters, () => {
     if (triggerForSaveFilters.value > tracker.value) {
-        filterGender.value = genderId.value;
+        filterPosition.value = positionId.value;
     } else if (triggerForSaveFilters.value < tracker.value) {
-        filterGender.value = false;
-        genderId.value = false;
+        filterPosition.value = false;
+        positionId.value = false;
     }
     tracker.value = triggerForSaveFilters.value;
 });
@@ -30,10 +30,10 @@ watch(triggerForSaveFilters, () => {
 
 <template>
 <BaseSelect 
-    v-model:select="genderId" 
-    title="Пол" 
-    defaultValue="Без разницы" 
-    :optionsList="genderList" 
+    v-model:select="positionId" 
+    title="Должность" 
+    defaultValue="Все должности" 
+    :optionsList="positionList" 
 />
 </template>
 

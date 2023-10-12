@@ -24,7 +24,7 @@ watch(triggerForSaveFilters, () => {
         filterCountry.value = false;
         countryId.value = false;
     }
-    tracker.value = triggerForSaveFilters.value 
+    tracker.value = triggerForSaveFilters.value;
 });
 </script>
 
