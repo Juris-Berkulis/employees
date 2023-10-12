@@ -2,6 +2,7 @@
 import SearchEmployees from '@/components/SearchEmployees.vue';
 import EmployeesList from '@/components/EmployeesList.vue';
 import FilterStaffTag from '@/components/FilterStaffTag.vue';
+import FilterAside from '@/components/FilterAside.vue';
 </script>
 
 <template>
@@ -14,16 +15,11 @@ import FilterStaffTag from '@/components/FilterStaffTag.vue';
             </template>
         </EmployeesList>
     </div>
-    <aside class="home-page__aside">
-        
-    </aside>
+    <FilterAside class="home-page__aside" />
 </div>
 </template>
 
 <style scoped lang="scss">
-//* box-shadow:
-$bsh: 0px 7px 30px 0px rgba(42, 53, 140, 0.03);
-
 .home-page {
     display: flex;
     align-items: flex-start;
@@ -40,7 +36,7 @@ $bsh: 0px 7px 30px 0px rgba(42, 53, 140, 0.03);
 .home-page__general {
     flex-grow: 1;
     background-color: var(--white, #ffffff);
-    box-shadow: $bsh;
+    box-shadow: --bsh;
 }
 
 .home-page__search-employees {
@@ -49,12 +45,6 @@ $bsh: 0px 7px 30px 0px rgba(42, 53, 140, 0.03);
 
 .home-page__aside {
     width: 587px;
-    border-radius: 10px;
-    background-color: var(--white, #ffffff);
-    box-shadow: $bsh;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
 
     @media (max-width: $sp-l) {
         & {

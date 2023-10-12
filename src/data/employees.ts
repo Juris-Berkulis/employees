@@ -1,4 +1,4 @@
-import type { Country, CountryId } from "./county";
+import type { Country, CountryId } from "./country";
 import type { Gender, GenderId } from "./gender";
 import type { Position, PositionId } from "./position";
 import type { StaffTag, StaffTagId } from "./staffTag";

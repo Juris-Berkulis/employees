@@ -5,6 +5,11 @@ import EmployeesListItem from '@/components/EmployeesListItem.vue';
 import { employees, type Employee } from '@/data/employees';
 import { useFilterStaffTagStore } from '@/stores/filterStaffTag';
 import { useSearchEmployeesStore } from '@/stores/searchEmployees';
+import { useFilterCountryStore } from '@/stores/filterCountry';
+
+const {
+    filterCountry,
+} = storeToRefs(useFilterCountryStore());
 
 const {
     searchValue,
@@ -17,9 +22,14 @@ const {
     isFilterStaffTagEnabled,
 } = storeToRefs(filterStaffTagStore);
 
+const employeesListWithFilteredCountry: ComputedRef<Employee[]> = computed(() => {
+    if (filterCountry.value) return employees.filter((employee) => employee.country.id === filterCountry.value)
+    else return employees
+});
+
 const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
-    if (!isFilterStaffTagEnabled.value) return employees
-    else return employees.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+    if (!isFilterStaffTagEnabled.value) return employeesListWithFilteredCountry.value
+    else return employeesListWithFilteredCountry.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
 });
 
 const employeesListWithSearch: ComputedRef<Employee[]> = computed(() => {
