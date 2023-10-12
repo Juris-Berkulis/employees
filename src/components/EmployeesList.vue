@@ -8,6 +8,7 @@ import { useSearchEmployeesStore } from '@/stores/searchEmployees';
 import { useFilterCountryStore } from '@/stores/filterCountry';
 import { useFilterGenderStore } from '@/stores/filterGender';
 import { useFilterPositionStore } from '@/stores/filterPosition';
+import { useFilterEmployeesBySpecificCriterion } from '@/composables/filterEmployeesBySpecificCriterion';
 
 const {
     filterCountry,
@@ -32,20 +33,9 @@ const {
     isFilterStaffTagEnabled,
 } = storeToRefs(filterStaffTagStore);
 
-const employeesListWithFilteredCountry: ComputedRef<Employee[]> = computed(() => {
-    if (filterCountry.value) return employees.filter((employee) => employee.country.id === filterCountry.value)
-    else return employees
-});
-
-const employeesListWithFilteredGender: ComputedRef<Employee[]> = computed(() => {
-    if (filterGender.value) return employeesListWithFilteredCountry.value.filter((employee) => employee.gender.id === filterGender.value)
-    else return employeesListWithFilteredCountry.value
-});
-
-const employeesListWithFilteredPosition: ComputedRef<Employee[]> = computed(() => {
-    if (filterPosition.value) return employeesListWithFilteredGender.value.filter((employee) => employee.position.id === filterPosition.value)
-    else return employeesListWithFilteredGender.value
-});
+const employeesListWithFilteredCountry = useFilterEmployeesBySpecificCriterion(employees, filterCountry, 'country');
+const employeesListWithFilteredGender = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredCountry, filterGender, 'gender');
+const employeesListWithFilteredPosition = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredGender, filterPosition, 'position');
 
 const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
     if (isFilterStaffTagEnabled.value) return employeesListWithFilteredPosition.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
