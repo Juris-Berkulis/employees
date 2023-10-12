@@ -41,7 +41,6 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .search-employees {
     padding: 30px;
-    border-bottom: 1px solid var(--line, #dbe4ed);
 }
 
 .search-employees__input-wrapper {

@@ -40,7 +40,11 @@ const employeesListWithSorting: ComputedRef<Employee[]> = computed(() => {
     <h1 class="employees-list__title">Список сотрудников</h1>
     <slot class="employees-list__filter-slot" name="filter" />
     <div class="employees-list__items-list">
-        <EmployeesListItem v-for="employee of employeesListWithSorting" :key="employee.inn" :employee="employee" />
+        <EmployeesListItem 
+            v-for="employee of employeesListWithSorting" 
+            :key="employee.inn" 
+            :employee="employee" 
+        />
     </div>
 </div>
 </template>
