@@ -76,8 +76,8 @@ const employeesListWithSorting: ComputedRef<Employee[]> = computed(() => {
     <h1 class="employees-list__title">Список сотрудников</h1>
     <slot class="employees-list__filter-slot" name="filter" />
     <div class="employees-list__items-list">
-        <p v-if="!employeesData.length">Нет сотрудников</p>
-        <p v-else-if="!employeesListWithSorting.length">По данному запросу сотрудники не найдены</p>
+        <p class="employees-list__empty" v-if="!employeesData.length">Нет сотрудников</p>
+        <p class="employees-list__empty" v-else-if="!employeesListWithSorting.length">По данному запросу сотрудники не найдены</p>
         <EmployeesListItem 
             v-for="employee of employeesListWithSorting" 
             :key="employee.inn" 
@@ -111,5 +111,14 @@ const employeesListWithSorting: ComputedRef<Employee[]> = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.employees-list__empty {
+    color: var(--black, #041423);
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
 }
 </style>
