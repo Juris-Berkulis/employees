@@ -5,7 +5,7 @@ import type { GenderId } from '@/data/gender';
 import type { PositionId } from '@/data/position';
 import { useTriggerForFilters } from '@/stores/triggerForFilters';
 
-type Id = false | CountryId | GenderId | PositionId;
+type Id = '' | CountryId | GenderId | PositionId;
 
 export const useSaveFilters = (filter: Ref<Id>, id: Ref<Id>): void => {
     const {
@@ -18,8 +18,8 @@ export const useSaveFilters = (filter: Ref<Id>, id: Ref<Id>): void => {
         if (triggerForSaveFilters.value > trackerForSaveFilters.value) {
             filter.value = id.value;
         } else if (triggerForSaveFilters.value < trackerForSaveFilters.value) {
-            filter.value = false;
-            id.value = false;
+            filter.value = '';
+            id.value = '';
         }
         trackerForSaveFilters.value = triggerForSaveFilters.value;
     });

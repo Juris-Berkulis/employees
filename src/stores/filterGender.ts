@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import type { GenderId } from "@/data/gender";
 
 export const useFilterGenderStore = defineStore('filterGender', () => {
-    const filterGender: Ref<GenderId | false> = ref(false);
+    const filterGender: Ref<GenderId | ''> = ref('');
 
     return {
         filterGender,

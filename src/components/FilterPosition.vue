@@ -10,7 +10,7 @@ const {
     filterPosition,
 } = storeToRefs(useFilterPositionStore());
 
-const positionId: Ref<PositionId | false> = ref(false);
+const positionId: Ref<PositionId | ''> = ref('');
 
 useSaveFilters(filterPosition, positionId);
 </script>

@@ -10,7 +10,7 @@ const {
     filterCountry,
 } = storeToRefs(useFilterCountryStore());
 
-const countryId: Ref<CountryId | false> = ref(false);
+const countryId: Ref<CountryId | ''> = ref('');
 
 useSaveFilters(filterCountry, countryId);
 </script>

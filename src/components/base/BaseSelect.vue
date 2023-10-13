@@ -6,12 +6,12 @@ import type { Position, PositionId } from '@/data/position';
 import type { StaffTag } from '@/data/staffTag';
 import type { TypeContract } from '@/data/typeContract';
 
-type OptionsList = Country | Gender | Position | TypeContract | StaffTag;
-interface Props<T extends OptionsList = OptionsList> {
+type Option = Country | Gender | Position | TypeContract | StaffTag;
+interface Props<T extends Option = Option> {
     title?: string,
     defaultValue: string,
     optionsList: T[],
-    select: false | (
+    select: '' | (
         T extends Country ? CountryId : 
         T extends Gender ? GenderId : 
         T extends Position ? PositionId : 
@@ -25,7 +25,7 @@ const emit = defineEmits(['update:select']);
 
 const changeSelectValue = (event: Event) => {
     const newSelectValue = +(event.target as HTMLSelectElement).value;
-    emit('update:select', newSelectValue || false);
+    emit('update:select', newSelectValue || '');
 };
 </script>
 
@@ -35,13 +35,13 @@ const changeSelectValue = (event: Event) => {
     <div class="filter__select-wrapper">
         <select 
             class="filter__select select"
-            :class="{select_black: select !== false}"
+            :class="{select_black: select !== ''}"
             @change="changeSelectValue" 
             :value="select"
         >
             <option 
                 class="select__option" 
-                :value="false"
+                value=""
             >{{ defaultValue }}</option>
             <option 
                 class="select__option select__option_black" 

@@ -10,7 +10,7 @@ const {
     filterGender,
 } = storeToRefs(useFilterGenderStore());
 
-const genderId: Ref<GenderId | false> = ref(false);
+const genderId: Ref<GenderId | ''> = ref('');
 
 useSaveFilters(filterGender, genderId);
 </script>

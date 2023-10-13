@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import type { CountryId } from "@/data/country";
 
 export const useFilterCountryStore = defineStore('filterCountry', () => {
-    const filterCountry: Ref<CountryId | false> = ref(false);
+    const filterCountry: Ref<CountryId | ''> = ref('');
 
     return {
         filterCountry,

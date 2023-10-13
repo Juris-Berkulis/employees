@@ -42,11 +42,11 @@ const inputedAddress: Ref<string> = ref('');
 const inputedDateBirth: Ref<string> = ref('');
 const inputedPassport: Ref<string> = ref('');
 const inputedStatusDescription: Ref<string> = ref('');
-const selectedCountry: Ref<CountryId | false> = ref(false);
-const selectedGender: Ref<CountryId | false> = ref(false);
-const selectedPosition: Ref<CountryId | false> = ref(false);
-const selectedStaffTag: Ref<CountryId | false> = ref(false);
-const selectedTypeContract: Ref<CountryId | false> = ref(false);
+const selectedCountry: Ref<CountryId | ''> = ref('');
+const selectedGender: Ref<CountryId | ''> = ref('');
+const selectedPosition: Ref<CountryId | ''> = ref('');
+const selectedStaffTag: Ref<CountryId | ''> = ref('');
+const selectedTypeContract: Ref<CountryId | ''> = ref('');
 
 const errorForFullName: Ref<string> = ref('');
 const errorForInn: Ref<string> = ref('');
@@ -161,11 +161,11 @@ const resetForm = (): void => {
     inputedDateBirth.value = '';
     inputedPassport.value = '';
     inputedStatusDescription.value = '';
-    selectedCountry.value = false;
-    selectedGender.value = false;
-    selectedPosition.value = false;
-    selectedStaffTag.value = false;
-    selectedTypeContract.value = false;
+    selectedCountry.value = '';
+    selectedGender.value = '';
+    selectedPosition.value = '';
+    selectedStaffTag.value = '';
+    selectedTypeContract.value = '';
 };
 
 const submit = (): void => {
