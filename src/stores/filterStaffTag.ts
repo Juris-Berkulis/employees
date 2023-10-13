@@ -18,9 +18,7 @@ export const useFilterStaffTagStore = defineStore('filterStaffTag', () => {
     });
 
     const resetFilterStaffTag = (): void => {
-        for (let key in filterStaffTag.value) {
-            filterStaffTag.value[key as unknown as keyof FilterStaffTag] = false;
-        }
+        filterStaffTag.value = {};
     };
 
     return {

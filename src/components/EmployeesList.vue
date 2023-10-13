@@ -8,6 +8,7 @@ import { useSearchEmployeesStore } from '@/stores/searchEmployees';
 import { useFilterCountryStore } from '@/stores/filterCountry';
 import { useFilterGenderStore } from '@/stores/filterGender';
 import { useFilterPositionStore } from '@/stores/filterPosition';
+import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
 import { useFilterEmployeesBySpecificCriterion } from '@/composables/filterEmployeesBySpecificCriterion';
 
 const {
@@ -21,6 +22,11 @@ const {
 const {
     filterPosition,
 } = storeToRefs(useFilterPositionStore());
+
+const {
+    filterTypeContract,
+    isFilterTypeContractEnabled,
+} = storeToRefs(useFilterTypeContractStore());
 
 const {
     searchValue,
@@ -37,9 +43,14 @@ const employeesListWithFilteredCountry = useFilterEmployeesBySpecificCriterion(e
 const employeesListWithFilteredGender = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredCountry, filterGender, 'gender');
 const employeesListWithFilteredPosition = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredGender, filterPosition, 'position');
 
-const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
-    if (isFilterStaffTagEnabled.value) return employeesListWithFilteredPosition.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+const employeesListWithFilteredTypeContract: ComputedRef<Employee[]> = computed(() => {
+    if (isFilterTypeContractEnabled.value) return employeesListWithFilteredPosition.value.filter((employee) => filterTypeContract.value[employee.type_contract.id])
     else return employeesListWithFilteredPosition.value
+});
+
+const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
+    if (isFilterStaffTagEnabled.value) return employeesListWithFilteredTypeContract.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
+    else return employeesListWithFilteredTypeContract.value
 });
 
 const employeesListWithSearch: ComputedRef<Employee[]> = computed(() => {

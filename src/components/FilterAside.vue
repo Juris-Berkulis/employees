@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia';
 import FilterCountry from '@/components/FilterCountry.vue';
 import FilterGender from '@/components/FilterGender.vue';
 import FilterPosition from '@/components/FilterPosition.vue';
+import FilterTypeContract from '@/components/FilterTypeContract.vue';
 import { useTriggerForFilters } from '@/stores/triggerForFilters';
 
 const {
@@ -25,6 +26,7 @@ const resetFilters = (): void => {
         <FilterCountry class="filters__item column column_x1" />
         <FilterGender class="filters__item column column_x1" />
         <FilterPosition class="filters__item column column_x2" />
+        <FilterTypeContract class="filters__item column column_x2" />
         <div class="filters__btns column column_x2">
             <button class="filters__btn" @click="applyFilters">Применить</button>
             <button class="filters__btn" @click="resetFilters">Очистить</button>
@@ -34,6 +36,16 @@ const resetFilters = (): void => {
 </template>
 
 <style scoped lang="scss">
+:deep(.filter__title) {
+    margin-bottom: 10px;
+    color: var(--black, #041423);
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+}
+
 .aside {
     border-radius: 10px;
     background-color: var(--white, #ffffff);
@@ -44,7 +56,7 @@ const resetFilters = (): void => {
 }
 
 .filters {
-    padding: 0 30px 30px;
+    padding: 30px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
@@ -68,5 +80,6 @@ const resetFilters = (): void => {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
+    border-top: 1px solid var(--line, #dbe4ed);
 }
 </style>

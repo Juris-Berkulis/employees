@@ -8,7 +8,7 @@ const filterStaffTagStore = useFilterStaffTagStore();
 
 const {
     resetFilterStaffTag,
-} = useFilterStaffTagStore();
+} = filterStaffTagStore;
 
 const {
     filterStaffTag,

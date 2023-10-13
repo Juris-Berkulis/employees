@@ -56,16 +56,6 @@ const changeSelectValue = (event: Event) => {
 <style scoped lang="scss">
 $bc-select: #e8f1f4;
 
-.filter__title {
-    margin-bottom: 10px;
-    color: var(--black, #041423);
-    font-family: Montserrat;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 120%;
-}
-
 .filter__select-wrapper {
     position: relative;
     width: 100%;
