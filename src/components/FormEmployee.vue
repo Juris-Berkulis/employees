@@ -8,10 +8,10 @@ import { useEmployeesDataStore } from '@/stores/employeesData';
 import { useValidation } from '@/composables/validation';
 import type { Employee } from '@/data/employees';
 import { countryList, type CountryId } from '@/data/country';
-import { positionList } from '@/data/position';
-import { staffTagList } from '@/data/staffTag';
-import { genderList } from '@/data/gender';
-import { typeContractList } from '@/data/typeContract';
+import { positionList, type PositionId } from '@/data/position';
+import { staffTagList, type StaffTagId } from '@/data/staffTag';
+import { genderList, type GenderId } from '@/data/gender';
+import { typeContractList, type TypeContractId } from '@/data/typeContract';
 
 const {
     addEmployee,
@@ -43,10 +43,10 @@ const inputedDateBirth: Ref<string> = ref('');
 const inputedPassport: Ref<string> = ref('');
 const inputedStatusDescription: Ref<string> = ref('');
 const selectedCountry: Ref<CountryId | ''> = ref('');
-const selectedGender: Ref<CountryId | ''> = ref('');
-const selectedPosition: Ref<CountryId | ''> = ref('');
-const selectedStaffTag: Ref<CountryId | ''> = ref('');
-const selectedTypeContract: Ref<CountryId | ''> = ref('');
+const selectedGender: Ref<GenderId | ''> = ref('');
+const selectedPosition: Ref<PositionId | ''> = ref('');
+const selectedStaffTag: Ref<StaffTagId | ''> = ref('');
+const selectedTypeContract: Ref<TypeContractId | ''> = ref('');
 
 const errorForFullName: Ref<string> = ref('');
 const errorForInn: Ref<string> = ref('');

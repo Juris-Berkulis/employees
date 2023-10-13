@@ -3,8 +3,8 @@ import IconSelectArrow from '@/components/icons/IconSelectArrow.vue';
 import type { Country, CountryId } from '@/data/country';
 import type { Gender, GenderId } from '@/data/gender';
 import type { Position, PositionId } from '@/data/position';
-import type { StaffTag } from '@/data/staffTag';
-import type { TypeContract } from '@/data/typeContract';
+import type { StaffTag, StaffTagId } from '@/data/staffTag';
+import type { TypeContract, TypeContractId } from '@/data/typeContract';
 
 type Option = Country | Gender | Position | TypeContract | StaffTag;
 interface Props<T extends Option = Option> {
@@ -15,6 +15,8 @@ interface Props<T extends Option = Option> {
         T extends Country ? CountryId : 
         T extends Gender ? GenderId : 
         T extends Position ? PositionId : 
+        T extends TypeContract ? TypeContractId : 
+        T extends StaffTag ? StaffTagId : 
         never
     ),
 };
