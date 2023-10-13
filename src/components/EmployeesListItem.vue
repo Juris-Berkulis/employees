@@ -18,7 +18,7 @@ const props = defineProps<Props>();
     </div>
     <div class="employee__line">
         <img class="employee__flag-img" :src="employee.country.icon" :alt="employee.country.slug">
-        <p class="employee__text">{{ employee.country.slug }} {{ employee.passport }}</p>
+        <p class="employee__text employee__text_upper-case">{{ employee.country.slug }} {{ employee.passport }}</p>
         <p class="employee__text">г. {{ employee.address }}</p>
         <p class="employee__text">Дата рождения: {{ employee.date_birth }}</p>
         <p class="employee__text">Возраст: {{ employee.age }} год</p>
@@ -99,12 +99,17 @@ const props = defineProps<Props>();
         height: 100%;
         background-color: #cedae5;
     }
+
+    &_upper-case {
+        text-transform: uppercase;
+    }
 }
 
 .employee__flag-img {
     width: 20px;
     height: 14px;
     margin-right: 10px;
+    border-radius: 2px;
 }
 
 .employee__description {
