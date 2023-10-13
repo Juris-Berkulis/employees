@@ -23,7 +23,7 @@ export interface Employee {
         tag: StaffTag<StaffTagId>, //* - (Объект тэг сотрудников)
         description: string, //* - (Описание статуса)
     },
-    passport: `${string} ${string}`,
+    passport: string,
 };
 
 export const employees: Employee[] = [
@@ -67,7 +67,7 @@ export const employees: Employee[] = [
             },
             description: 'Истекают все документы',
         },
-        passport: '4002 123456',
+        passport: '4002123456',
     },
     {
         full_name: 'Иванов Иван Иванович',
@@ -109,7 +109,7 @@ export const employees: Employee[] = [
             },
             description: 'Истекает патент',
         },
-        passport: '4002 123456',
+        passport: '4002123456',
     },
     {
         full_name: 'Константинопольский Константин Константинович',
@@ -151,7 +151,7 @@ export const employees: Employee[] = [
             },
             description: 'Истекает патент',
         },
-        passport: '4002 123456',
+        passport: '4002123456',
     },
     {
         full_name: 'Иванов Иван Иванович',
@@ -193,7 +193,7 @@ export const employees: Employee[] = [
             },
             description: 'Пропустил медосмотр',
         },
-        passport: '4002 123456',
+        passport: '4002123456',
     },
     {
         full_name: 'Константинопольский Константин Константинович',
@@ -235,7 +235,7 @@ export const employees: Employee[] = [
             },
             description: 'Прошел все процедуры',
         },
-        passport: '4002 123456',
+        passport: '4002123456',
     },
     {
         full_name: 'Васильева Василиса Васильевна',
@@ -277,7 +277,7 @@ export const employees: Employee[] = [
             },
             description: 'Прошел все процедуры',
         },
-        passport: '4002 123456',
+        passport: '4002123456',
     },
     {
         full_name: 'Александрова Александра Александровна',
@@ -319,6 +319,6 @@ export const employees: Employee[] = [
             },
             description: 'Нет документов',
         },
-        passport: '4002 123456',
+        passport: '4002123456',
     },
 ];

@@ -3,11 +3,12 @@ import IconSelectArrow from '@/components/icons/IconSelectArrow.vue';
 import type { Country, CountryId } from '@/data/country';
 import type { Gender, GenderId } from '@/data/gender';
 import type { Position, PositionId } from '@/data/position';
+import type { StaffTag } from '@/data/staffTag';
+import type { TypeContract } from '@/data/typeContract';
 
-type OptionsList = Country | Gender | Position;
-
+type OptionsList = Country | Gender | Position | TypeContract | StaffTag;
 interface Props<T extends OptionsList = OptionsList> {
-    title: string,
+    title?: string,
     defaultValue: string,
     optionsList: T[],
     select: false | (
@@ -30,7 +31,7 @@ const changeSelectValue = (event: Event) => {
 
 <template>
 <div class="filter">
-    <h3 class="filter__title">{{ title }}</h3>
+    <h3 class="filter__title" v-if="title">{{ title }}</h3>
     <div class="filter__select-wrapper">
         <select 
             class="filter__select select"
@@ -46,7 +47,7 @@ const changeSelectValue = (event: Event) => {
                 class="select__option select__option_black" 
                 v-for="option of optionsList" 
                 :value="option.id"
-            >{{ (<Position>option).name || (<Country | Gender>option).title }}</option>
+            >{{ (<Position>option).name || (<Country | Gender | TypeContract | StaffTag>option).title }}</option>
         </select>
         <IconSelectArrow class="select__arrow" />
     </div>

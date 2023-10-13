@@ -1,13 +1,21 @@
 <script setup lang="ts">
+import { ref, type Ref } from 'vue';
+import TheModal from '@/components/TheModal.vue';
+import FormEmployee from '@/components/FormEmployee.vue';
 import IconPerson from '@/components/icons/IconPerson.vue';
+
+const isShowModal: Ref<boolean> = ref(false);
 </script>
 
 <template>
 <div class="add-employee">
-    <button class="add-employee__btn button button_rectangle">
+    <button class="add-employee__btn button button_rectangle" @click="isShowModal = true">
         <IconPerson class="add-employee__btn-icon" />
         <span class="add-employee__btn-text">Добавить нового сотрудника</span>
     </button>
+    <TheModal v-model:isShowModal="isShowModal">
+        <FormEmployee />
+    </TheModal>
 </div>
 </template>
 

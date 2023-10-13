@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, type ComputedRef } from 'vue';
 import type { Employee } from '@/data/employees';
 
 interface Props {
@@ -6,6 +7,10 @@ interface Props {
 };
 
 const props = defineProps<Props>();
+
+const pasport: ComputedRef<string> = computed(() => {
+    return `${props.employee.passport.slice(0, 4)} ${props.employee.passport.slice(4)}`
+});
 </script>
 
 <template>
@@ -18,7 +23,7 @@ const props = defineProps<Props>();
     </div>
     <div class="employee__line">
         <img class="employee__flag-img" :src="employee.country.icon" :alt="employee.country.slug">
-        <p class="employee__text employee__text_upper-case">{{ employee.country.slug }} {{ employee.passport }}</p>
+        <p class="employee__text employee__text_upper-case">{{ employee.country.slug }} {{ pasport }}</p>
         <p class="employee__text">г. {{ employee.address }}</p>
         <p class="employee__text">Дата рождения: {{ employee.date_birth }}</p>
         <p class="employee__text">Возраст: {{ employee.age }} год</p>
