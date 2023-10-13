@@ -13,10 +13,10 @@ type Id<T> = false | (
     never
 );
 
-export const useFilterEmployeesBySpecificCriterion = <T extends Criterion = Criterion>(employeesList: Employee[] | ComputedRef<Employee[]>, filter: Ref<Id<T>>, criterion: T) => {
+export const useFilterEmployeesBySpecificCriterion = <T extends Criterion = Criterion>(employeesList: Employee[] | ComputedRef<Employee[]> | Ref<Employee[]>, filter: Ref<Id<T>>, criterion: T) => {
     const employeesListWithFiltered: ComputedRef<Employee[]> = computed(() => {
-        if (filter.value !== false) return toValue(employeesList).filter((employee) => employee[criterion].id === filter.value)
-        else return toValue(employeesList)
+        if (filter.value !== false) return toValue(toValue(employeesList)).filter((employee) => employee[criterion].id === filter.value)
+        else return toValue(toValue(employeesList))
     });
 
     return employeesListWithFiltered

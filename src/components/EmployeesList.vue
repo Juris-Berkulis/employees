@@ -2,7 +2,8 @@
 import { computed, type ComputedRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import EmployeesListItem from '@/components/EmployeesListItem.vue';
-import { employees, type Employee } from '@/data/employees';
+import { type Employee } from '@/data/employees';
+import { useEmployeesDataStore } from '@/stores/employeesData';
 import { useFilterStaffTagStore } from '@/stores/filterStaffTag';
 import { useSearchEmployeesStore } from '@/stores/searchEmployees';
 import { useFilterCountryStore } from '@/stores/filterCountry';
@@ -10,6 +11,10 @@ import { useFilterGenderStore } from '@/stores/filterGender';
 import { useFilterPositionStore } from '@/stores/filterPosition';
 import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
 import { useFilterEmployeesBySpecificCriterion } from '@/composables/filterEmployeesBySpecificCriterion';
+
+const {
+    employeesData,
+} = storeToRefs(useEmployeesDataStore());
 
 const {
     filterCountry,
@@ -39,7 +44,7 @@ const {
     isFilterStaffTagEnabled,
 } = storeToRefs(filterStaffTagStore);
 
-const employeesListWithFilteredCountry = useFilterEmployeesBySpecificCriterion(employees, filterCountry, 'country');
+const employeesListWithFilteredCountry = useFilterEmployeesBySpecificCriterion(employeesData, filterCountry, 'country');
 const employeesListWithFilteredGender = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredCountry, filterGender, 'gender');
 const employeesListWithFilteredPosition = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredGender, filterPosition, 'position');
 
@@ -71,6 +76,8 @@ const employeesListWithSorting: ComputedRef<Employee[]> = computed(() => {
     <h1 class="employees-list__title">Список сотрудников</h1>
     <slot class="employees-list__filter-slot" name="filter" />
     <div class="employees-list__items-list">
+        <p v-if="!employeesData.length">Нет сотрудников</p>
+        <p v-else-if="!employeesListWithSorting.length">По данному запросу сотрудники не найдены</p>
         <EmployeesListItem 
             v-for="employee of employeesListWithSorting" 
             :key="employee.inn" 
