@@ -1,10 +1,14 @@
 //* screen points:
 $sp-l: 1920px;
 
+//* box-shadow parts:
+$bsh-rectangle: 0px 10px 20px 0px;
+
 :root {
     //* colors:
     --black: #041423;
     --blue: #2a358c;
+    --light_blue: #00b6ed;
     --green: #00ae5b;
     --grey: #b0bcc7;
     --light_grey: #e7f3ff;
@@ -14,5 +18,4 @@ $sp-l: 1920px;
 
     //* box-shadow:
     --bsh: 0px 7px 30px 0px rgba(42, 53, 140, 0.03);
-    --bsh-rectangle: 0px 10px 20px 0px;
 }

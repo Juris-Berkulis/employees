@@ -4,8 +4,8 @@ import FilterCountry from '@/components/FilterCountry.vue';
 import FilterGender from '@/components/FilterGender.vue';
 import FilterPosition from '@/components/FilterPosition.vue';
 import FilterTypeContract from '@/components/FilterTypeContract.vue';
-import IconPerson from '@/components/icons/IconPerson.vue';
 import { useTriggerForFilters } from '@/stores/triggerForFilters';
+import AddEmployee from './AddEmployee.vue';
 
 const {
     triggerForSaveFilters,
@@ -22,12 +22,7 @@ const resetFilters = (): void => {
 
 <template>
 <aside class="aside">
-    <div class="aside__add-employee add-employee">
-        <button class="add-employee__btn">
-            <IconPerson class="add-employee__btn-icon" />
-            <span class="add-employee__btn-text">Добавить нового сотрудника</span>
-        </button>
-    </div>
+    <AddEmployee class="aside__add-employee" />
     <div class="aside__filters filters">
         <h2 class="filters__title column column_x2">Фильтр</h2>
         <FilterCountry class="filters__item column column_x1" />
@@ -66,6 +61,10 @@ const resetFilters = (): void => {
     display: flex;
     flex-direction: column;
     gap: 30px;
+}
+
+.aside__add-employee {
+    border-bottom: 1px solid var(--line, #dbe4ed);
 }
 
 .filters {
@@ -107,12 +106,12 @@ const resetFilters = (): void => {
 
     &_apply {
         background-color: var(--green, #00ae5b);
-        box-shadow: --bsh-rectangle rgba(0, 174, 91, 0.20);
+        box-shadow: $bsh-rectangle rgba(0, 174, 91, 0.20);
     }
 
     &_reset {
         background-color: var(--dark_grey, #84909b);
-        box-shadow: --bsh-rectangle rgba(106, 117, 128, 0.20);
+        box-shadow: $bsh-rectangle rgba(106, 117, 128, 0.20);
     }
 }
 </style>
