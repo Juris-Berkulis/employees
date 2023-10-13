@@ -28,8 +28,14 @@ const resetFilters = (): void => {
         <FilterPosition class="filters__item column column_x2" />
         <FilterTypeContract class="filters__item column column_x2" />
         <div class="filters__btns column column_x2">
-            <button class="filters__btn" @click="applyFilters">Применить</button>
-            <button class="filters__btn" @click="resetFilters">Очистить</button>
+            <button 
+                class="filters__btn filters__btn_apply button button_rectangle" 
+                @click="applyFilters"
+            >Применить</button>
+            <button 
+                class="filters__btn filters__btn_reset button button_rectangle" 
+                @click="resetFilters"
+            >Очистить</button>
         </div>
     </div>
 </aside>
@@ -81,5 +87,25 @@ const resetFilters = (): void => {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
     border-top: 1px solid var(--line, #dbe4ed);
+}
+
+.filters__btn {
+    padding: 14px 24px;
+    color: var(--white, #ffffff);
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+
+    &_apply {
+        background-color: var(--green, #00ae5b);
+        box-shadow: --bsh-rectangle rgba(0, 174, 91, 0.20);
+    }
+
+    &_reset {
+        background-color: var(--dark_grey, #84909b);
+        box-shadow: --bsh-rectangle rgba(106, 117, 128, 0.20);
+    }
 }
 </style>

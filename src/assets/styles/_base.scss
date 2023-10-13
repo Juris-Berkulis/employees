@@ -13,8 +13,14 @@
 }
 
 .button {
+  border: none;
+  background-color: transparent;
   cursor: pointer;
   transition: all 0.4s linear;
+
+  &_rectangle {
+    border-radius: 4px;
+  }
 }
 
 .input {
