@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import AddEmployee from '@/components/AddEmployee.vue';
 import FilterCountry from '@/components/FilterCountry.vue';
 import FilterGender from '@/components/FilterGender.vue';
 import FilterPosition from '@/components/FilterPosition.vue';
 import FilterTypeContract from '@/components/FilterTypeContract.vue';
 import { useTriggerForFilters } from '@/stores/triggerForFilters';
-import AddEmployee from './AddEmployee.vue';
 
 const {
     triggerForSaveFilters,

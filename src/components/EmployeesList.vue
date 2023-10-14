@@ -13,33 +13,16 @@ import { useFilterPositionStore } from '@/stores/filterPosition';
 import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
 import { useFilterEmployeesBySpecificCriterion } from '@/composables/filterEmployeesBySpecificCriterion';
 
-const {
-    employeesData,
-} = storeToRefs(useEmployeesDataStore());
-
-const {
-    filterCountry,
-} = storeToRefs(useFilterCountryStore());
-
-const {
-    filterGender,
-} = storeToRefs(useFilterGenderStore());
-
-const {
-    filterPosition,
-} = storeToRefs(useFilterPositionStore());
-
+const { employeesData } = storeToRefs(useEmployeesDataStore());
+const { filterCountry } = storeToRefs(useFilterCountryStore());
+const { filterGender } = storeToRefs(useFilterGenderStore());
+const { filterPosition } = storeToRefs(useFilterPositionStore());
 const {
     filterTypeContract,
     isFilterTypeContractEnabled,
 } = storeToRefs(useFilterTypeContractStore());
-
-const {
-    searchValue,
-} = storeToRefs(useSearchEmployeesStore());
-
+const { searchValue } = storeToRefs(useSearchEmployeesStore());
 const filterStaffTagStore = useFilterStaffTagStore();
-
 const {
     filterStaffTag,
     isFilterStaffTagEnabled,

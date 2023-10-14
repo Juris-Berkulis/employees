@@ -143,17 +143,17 @@ onBeforeUnmount(() => {
         <BaseInput 
             class="form__input" 
             v-if="fieldValue.placeholder"
-            :class="{form__input_error: fieldValue.fieldError}"
             v-model:inputedValue="<string>fieldValue.fieldValue" 
+            :class="{form__input_error: fieldValue.fieldError}"
             :placeholder="fieldValue.placeholder" 
         />
         <BaseSelect 
             class="form__select"
             :class="{form__select_error: fieldValue.fieldError}"
             v-else-if="fieldValue.optionsList"
+            v-model:select="<OptionsIds>fieldValue.fieldValue"
             :defaultValue="fieldValue.defaultValue!"
             :optionsList="fieldValue.optionsList"
-            v-model:select="<OptionsIds>fieldValue.fieldValue"
         />
     </BaseFormFieldWrapper>
     <BaseLoader class="form__loader" v-if="isLoading" />

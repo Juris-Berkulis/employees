@@ -18,7 +18,7 @@ export interface Employee {
     country_id: CountryId, //* - (ID гражданства) valid
     position: Position<PositionId>, //* - (Объект должность) valid
     position_id: PositionId, //* - (ID должности) valid
-    status: { //* - (Статус сотрудника - выводить необходимо description сортировать по tag_id) valid 
+    status: { //* - (Статус сотрудника) valid 
         tag_id: StaffTagId, //* - (ID тэга сотрудника)
         tag: StaffTag<StaffTagId>, //* - (Объект тэг сотрудников)
         description: string, //* - (Описание статуса)
