@@ -233,7 +233,7 @@ onBeforeUnmount(() => {
         />
     </BaseFormFieldWrapper>
     <BaseLoader class="form__loader" v-if="isLoading" />
-    <button class="form__btn button button_rectangle" v-else type="submit">Добавить</button>
+    <button class="form__btn button button_rectangle button_animation" v-else type="submit">Добавить</button>
 </form>
 </template>
 
@@ -261,6 +261,10 @@ $field-bc-error: rgba(236, 63, 63, 0.2);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 30px;
+
+    & > *:first-child {
+        grid-column: auto/span 2;
+    }
 }
 
 .form__input {
@@ -318,8 +322,15 @@ $field-bc-error: rgba(236, 63, 63, 0.2);
 
 .form__btn {
     grid-column: auto/span 2;
-    display: block;
     margin: 0 auto;
-    padding: 21px 78px;
+    padding: 20px 50px;
+    color: var(--white, #ffffff);
+    background-color: var(--light_blue, #00b6ed);
+    box-shadow: $bsh-rectangle rgba(0, 182, 237, 0.20);
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
 }
 </style>

@@ -99,6 +99,10 @@ defineEmits(['update:isShowModal']);
     height: 100%;
     overflow: auto;
 
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+
     @media (max-width: $sp-s) {
         & {
             padding: 24px 0;

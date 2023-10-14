@@ -31,11 +31,11 @@ const resetFilters = (): void => {
         <FilterTypeContract class="filters__item column column_x2" />
         <div class="filters__btns column column_x2">
             <button 
-                class="filters__btn filters__btn_apply button button_rectangle" 
+                class="filters__btn filters__btn_apply button button_rectangle button_animation" 
                 @click="applyFilters"
             >Применить</button>
             <button 
-                class="filters__btn filters__btn_reset button button_rectangle" 
+                class="filters__btn filters__btn_reset button button_rectangle button_animation" 
                 @click="resetFilters"
             >Очистить</button>
         </div>

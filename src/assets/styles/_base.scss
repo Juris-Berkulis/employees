@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+body:has(#modal) {
+  overflow: hidden;
+}
+
 #app {
   min-height: 100vh;
   display: flex;
@@ -20,6 +24,26 @@
 
   &_rectangle {
     border-radius: 4px;
+  }
+
+  &_animation {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 100%;
+      bottom: 0;
+      width: 100%;
+      background-color: #00000022;
+      transition: all 0.2s linear;
+    }
+  
+    &:hover::after {
+      right: 0;
+    }
   }
 }
 

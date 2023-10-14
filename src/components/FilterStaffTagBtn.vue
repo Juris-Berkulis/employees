@@ -20,7 +20,7 @@ const btnStyles: ComputedRef<{
 </script>
 
 <template>
-<button class="btn button" :style="btnStyles">
+<button class="btn button button_animation" :style="btnStyles">
     <slot />
 </button>
 </template>

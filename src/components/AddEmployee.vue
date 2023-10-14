@@ -9,7 +9,7 @@ const isShowModal: Ref<boolean> = ref(false);
 
 <template>
 <div class="add-employee">
-    <button class="add-employee__btn button button_rectangle" @click="isShowModal = true">
+    <button class="add-employee__btn button button_rectangle button_animation" @click="isShowModal = true">
         <IconPerson class="add-employee__btn-icon" />
         <span class="add-employee__btn-text">Добавить нового сотрудника</span>
     </button>
