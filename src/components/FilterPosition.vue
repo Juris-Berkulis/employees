@@ -1,23 +1,15 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import BaseSelect from '@/components/base/BaseSelect.vue';
-import { positionList, type PositionId } from '@/data/position';
-import { useSaveFilters } from '@/composables/saveFilters';
+import { positionList } from '@/data/position';
 import { useFilterPositionStore } from '@/stores/filterPosition';
 
-const {
-    filterPosition,
-} = storeToRefs(useFilterPositionStore());
-
-const positionId: Ref<PositionId | ''> = ref('');
-
-useSaveFilters(filterPosition, positionId);
+const { filterPositionLocal } = storeToRefs(useFilterPositionStore());
 </script>
 
 <template>
 <BaseSelect 
-    v-model:select="positionId" 
+    v-model:select="filterPositionLocal" 
     title="Должность" 
     defaultValue="Все должности" 
     :optionsList="positionList" 

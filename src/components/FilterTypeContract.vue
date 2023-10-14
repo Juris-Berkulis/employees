@@ -1,43 +1,15 @@
 <script setup lang="ts">
-import { ref, watch, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import IconCheck from '@/components/icons/IconCheck.vue';
 import { typeContractList, type TypeContractId } from '@/data/typeContract';
-import { useFilterTypeContractStore, type FilterTypeContract } from '@/stores/filterTypeContract';
-import { useTriggerForFilters } from '@/stores/triggerForFilters';
-
-const filterTypeContractStore = useFilterTypeContractStore();
+import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
 
 const {
-    resetFilterTypeContract,
-} = filterTypeContractStore;
-
-const {
-    filterTypeContract,
-} = storeToRefs(filterTypeContractStore);
-
-const {
-    triggerForSaveFilters,
-} = storeToRefs(useTriggerForFilters());
-
-const trackerForSaveFilters: Ref<number> = ref(triggerForSaveFilters.value);
-const filterTypeContractLocalState: Ref<FilterTypeContract> = ref({});
-
-watch(triggerForSaveFilters, () => {
-    if (triggerForSaveFilters.value > trackerForSaveFilters.value) {
-        for (let key in filterTypeContractLocalState.value) {
-            const id: keyof FilterTypeContract = key as unknown as keyof FilterTypeContract;
-            filterTypeContract.value[id] = filterTypeContractLocalState.value[id];
-        }
-    } else if (triggerForSaveFilters.value < trackerForSaveFilters.value) {
-        filterTypeContractLocalState.value = {};
-        resetFilterTypeContract();
-    }
-    trackerForSaveFilters.value = triggerForSaveFilters.value;
-});
+    filterTypeContractLocal,
+} = storeToRefs(useFilterTypeContractStore());
 
 const isActive = (id: TypeContractId): boolean | undefined => {
-    return filterTypeContractLocalState.value[id]
+    return filterTypeContractLocal.value[id]
 };
 </script>
 
@@ -48,7 +20,7 @@ const isActive = (id: TypeContractId): boolean | undefined => {
         <div 
             class="filter-type-contract__filter-item" 
             :class="{'filter-type-contract__filter-item_checked': isActive(typeContract.id)}"
-            @click="filterTypeContractLocalState[typeContract.id] = !filterTypeContractLocalState[typeContract.id]" 
+            @click="filterTypeContractLocal[typeContract.id] = !filterTypeContractLocal[typeContract.id]" 
             v-for="typeContract of typeContractList" 
             :key="typeContract.id"
         >

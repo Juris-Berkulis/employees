@@ -1,22 +1,31 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import AddEmployee from '@/components/AddEmployee.vue';
 import FilterCountry from '@/components/FilterCountry.vue';
 import FilterGender from '@/components/FilterGender.vue';
 import FilterPosition from '@/components/FilterPosition.vue';
 import FilterTypeContract from '@/components/FilterTypeContract.vue';
-import { useTriggerForFilters } from '@/stores/triggerForFilters';
+import { useFilterCountryStore } from '@/stores/filterCountry';
+import { useFilterGenderStore } from '@/stores/filterGender';
+import { useFilterPositionStore } from '@/stores/filterPosition';
+import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
 
-const {
-    triggerForSaveFilters,
-} = storeToRefs(useTriggerForFilters());
+const { applayFilterCountry, resetFilterCountry } = useFilterCountryStore();
+const { applayFilterGender, resetFilterGender } = useFilterGenderStore();
+const { applayFilterPosition, resetFilterPosition } = useFilterPositionStore();
+const { applayFilterTypeContract, resetFilterTypeContract } = useFilterTypeContractStore();
 
 const applyFilters = (): void => {
-    triggerForSaveFilters.value++;
+    applayFilterCountry();
+    applayFilterGender();
+    applayFilterPosition();
+    applayFilterTypeContract();
 };
 
 const resetFilters = (): void => {
-    triggerForSaveFilters.value--;
+    resetFilterCountry();
+    resetFilterGender();
+    resetFilterPosition();
+    resetFilterTypeContract();
 };
 </script>
 

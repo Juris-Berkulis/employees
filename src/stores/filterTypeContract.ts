@@ -8,6 +8,7 @@ export type FilterTypeContract = {
 
 export const useFilterTypeContractStore = defineStore('filterTypeContract', () => {
     const filterTypeContract: Ref<FilterTypeContract> = ref({});
+    const filterTypeContractLocal: Ref<FilterTypeContract> = ref({});
 
     const isFilterTypeContractEnabled: ComputedRef<boolean> = computed(() => {
         for (let key in filterTypeContract.value) {
@@ -17,13 +18,23 @@ export const useFilterTypeContractStore = defineStore('filterTypeContract', () =
         return false
     });
 
+    const applayFilterTypeContract = (): void => {
+        for (let key in filterTypeContractLocal.value) {
+            const id: keyof FilterTypeContract = key as unknown as keyof FilterTypeContract;
+            filterTypeContract.value[id] = filterTypeContractLocal.value[id];
+        }
+    };
+
     const resetFilterTypeContract = (): void => {
         filterTypeContract.value = {};
+        filterTypeContractLocal.value = {};
     };
 
     return {
         filterTypeContract,
+        filterTypeContractLocal,
         isFilterTypeContractEnabled,
+        applayFilterTypeContract,
         resetFilterTypeContract,
     }
 });
