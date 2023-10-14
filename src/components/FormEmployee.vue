@@ -255,6 +255,10 @@ $field-bc-error: rgba(236, 63, 63, 0.2);
     line-height: normal;
     text-align: center;
     text-transform: uppercase;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .form {

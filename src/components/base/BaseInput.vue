@@ -25,11 +25,11 @@ const changeInputedValue = (event: Event): void => {
 
 <style scoped lang="scss">
 .input {
-    padding: 18px 24px;
+    padding: 12px 16px;
     font-family: Montserrat;
-    font-size: 16px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 400;
-    line-height: 20px;
+    line-height: 120%;
 }
 </style>
