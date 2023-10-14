@@ -75,7 +75,7 @@ const errorForForm: ComputedRef<boolean> = computed(() => {
     return false
 });
 
-type FieldOptions = { isValid: () => boolean, errorText: string };
+type FieldOptions = { isValid: (fieldValue: any) => boolean, errorText: string };
 
 type ValidatedObj = {
     [key in Field]: FieldOptions[];
@@ -83,42 +83,42 @@ type ValidatedObj = {
 
 const validatedObj: ValidatedObj = {
     fullName: [
-        { isValid: () => requiredField(fieldObj.value.fullName.fieldValue), errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(fieldObj.value.fullName.fieldValue, regExpForFullName), errorText: textForRegExpError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForFullName), errorText: textForRegExpError },
     ],
     inn: [
-        { isValid: () => requiredField(fieldObj.value.inn.fieldValue), errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(fieldObj.value.inn.fieldValue, regExpForInn), errorText: textForRegExpError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForInn), errorText: textForRegExpError },
     ],
     address: [
-        { isValid: () => requiredField(fieldObj.value.address.fieldValue), errorText: textForRequiredFieldError },
-        { isValid: () => minLength(fieldObj.value.address.fieldValue, minLengthForAddress), errorText: textForMinLengthError(minLengthForAddress) },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => minLength(fieldValue, minLengthForAddress), errorText: textForMinLengthError(minLengthForAddress) },
     ],
     dateBirth: [
-        { isValid: () => requiredField(fieldObj.value.dateBirth.fieldValue), errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(fieldObj.value.dateBirth.fieldValue, regExpForDateBirth), errorText: textForRegExpError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForDateBirth), errorText: textForRegExpError },
     ],
     passport: [
-        { isValid: () => requiredField(fieldObj.value.passport.fieldValue), errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(fieldObj.value.passport.fieldValue, regExpForPassport), errorText: textForRegExpError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForPassport), errorText: textForRegExpError },
     ],
     description: [
-        { isValid: () => requiredField(fieldObj.value.description.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
     ],
     country: [
-        { isValid: () => requiredField(fieldObj.value.country.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
     ],
     gender: [
-        { isValid: () => requiredField(fieldObj.value.gender.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
     ],
     position: [
-        { isValid: () => requiredField(fieldObj.value.position.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
     ],
     staffTag: [
-        { isValid: () => requiredField(fieldObj.value.staffTag.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
     ],
     typeContract: [
-        { isValid: () => requiredField(fieldObj.value.typeContract.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
     ],
 };
 
@@ -126,7 +126,7 @@ const checkField = (field: Field) => {
     for (let i = 0; i < validatedObj[field].length; i++) {
         const fieldOptions: FieldOptions = validatedObj[field][i];
 
-        if (!fieldOptions.isValid()) {
+        if (!fieldOptions.isValid(fieldObj.value[field].fieldValue)) {
             fieldObj.value[field].fieldError = fieldOptions.errorText; return
         }
     }
