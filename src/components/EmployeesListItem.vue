@@ -48,6 +48,8 @@ const pasport: ComputedRef<string> = computed(() => {
 .employee__line {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    row-gap: 10px;
 }
 
 .employee__title {

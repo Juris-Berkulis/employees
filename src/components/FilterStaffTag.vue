@@ -42,9 +42,33 @@ const isActive = (id: StaffTagId): boolean | undefined => {
 <style scoped lang="scss">
 .filter-staff-tag__btns-wrapper {
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    @media (max-width: $sp-s) {
+        & {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 }
 
-.filter-staff-tag__btn:not(:last-child) {
-    margin-right: 10px;
+.filter-staff-tag__btn {
+    & {
+        @media (max-width: $sp-n) {
+            & {
+                grid-column: auto/span 2;
+            }
+        }
+    }
+
+    &:first-child {
+        @media (max-width: $sp-s) {
+            & {
+                grid-column: auto/span 2;
+            }
+        }
+    }
 }
 </style>
