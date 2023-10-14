@@ -1,126 +1,31 @@
 <script setup lang="ts">
-import { ref, type ComputedRef, type Ref, computed, watch, onBeforeUnmount } from 'vue';
+import { ref, type Ref, watch, onBeforeUnmount } from 'vue';
 import BaseFormFieldWrapper from '@/components/base/BaseFormFieldWrapper.vue';
 import BaseSelect from '@/components/base/BaseSelect.vue';
 import BaseInput from '@/components/base/BaseInput.vue';
 import BaseLoader from '@/components/base/BaseLoader.vue';
 import { useEmployeesDataStore } from '@/stores/employeesData';
-import { useValidation } from '@/composables/validation';
+import { useValidation, type Field, type FieldOptions } from '@/composables/validation';
 import type { Employee } from '@/data/employees';
-import { countryList, type CountryId } from '@/data/country';
-import { positionList, type PositionId } from '@/data/position';
-import { staffTagList, type StaffTagId } from '@/data/staffTag';
-import { genderList, type GenderId } from '@/data/gender';
-import { typeContractList, type TypeContractId } from '@/data/typeContract';
+import { countryList } from '@/data/country';
+import { positionList } from '@/data/position';
+import { staffTagList } from '@/data/staffTag';
+import { genderList } from '@/data/gender';
+import { typeContractList } from '@/data/typeContract';
 
 const {
     addEmployee,
 } = useEmployeesDataStore();
 
 const { 
-    requiredField, 
-    regExpMatching, 
-    minLength, 
+    fieldObj,
+    validatedObj,
+    errorForForm, 
 } = useValidation();
-
-const regExpForFullName = /^[А-ЯЁа-яё\-]{2,}\s{1}[А-ЯЁа-яё\-]{2,}(\s{1}[А-ЯЁа-яё\-]{2,})?$/;
-const regExpForInn = /^\d{10}$/;
-const minLengthForAddress: number = 5;
-const regExpForDateBirth = /^\d{2}\.\d{2}\.\d{4}$/;
-const regExpForPassport = /^\d{10}$/;
-const textForRequiredFieldError = 'Поле не заполненно';
-const textForRegExpError = 'Неверный формат';
-const textForMinLengthError = (minLength: number): string => `Минимальная длина ${minLength} символов`;
 
 const isRequestSent: Ref<boolean> = ref(false);
 const timerId: Ref<ReturnType<typeof setTimeout> | undefined> = ref();
 const isLoading: Ref<boolean> = ref(false);
-
-type Field = 'fullName' | 'inn' | 'address' | 'dateBirth' | 'passport' | 'description' 
-    | 'country' | 'gender' | 'position' | 'staffTag' | 'typeContract';
-
-type FieldInput = Exclude<Field, 'country' | 'gender' | 'position' | 'staffTag' | 'typeContract'>;
-
-type FieldValueAndError<T> = { fieldValue: T, fieldError: string };
-
-type FieldsObj = {
-    [key in FieldInput]: FieldValueAndError<string>;
-} & {
-    'country': FieldValueAndError<CountryId | ''>,
-    'gender': FieldValueAndError<GenderId | ''>,
-    'position': FieldValueAndError<PositionId | ''>,
-    'staffTag': FieldValueAndError<StaffTagId | ''>,
-    'typeContract': FieldValueAndError<TypeContractId | ''>,
-};
-
-const fieldObj: Ref<FieldsObj> = ref({
-    fullName: { fieldValue: '', fieldError: '' },
-    inn: { fieldValue: '', fieldError: '' },
-    address: { fieldValue: '', fieldError: '' },
-    dateBirth: { fieldValue: '', fieldError: '' },
-    passport: { fieldValue: '', fieldError: '' },
-    description: { fieldValue: '', fieldError: '' },
-    country: { fieldValue: '', fieldError: '' },
-    gender: { fieldValue: '', fieldError: '' },
-    position: { fieldValue: '', fieldError: '' },
-    staffTag: { fieldValue: '', fieldError: '' },
-    typeContract: { fieldValue: '', fieldError: '' },
-});
-
-const errorForForm: ComputedRef<boolean> = computed(() => {
-    for (let field in fieldObj.value) {
-        if (fieldObj.value[field as Field].fieldError) return true
-    }
-
-    return false
-});
-
-type FieldOptions = { isValid: (fieldValue: any) => boolean, errorText: string };
-
-type ValidatedObj = {
-    [key in Field]: FieldOptions[];
-};
-
-const validatedObj: ValidatedObj = {
-    fullName: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForFullName), errorText: textForRegExpError },
-    ],
-    inn: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForInn), errorText: textForRegExpError },
-    ],
-    address: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-        { isValid: (fieldValue) => minLength(fieldValue, minLengthForAddress), errorText: textForMinLengthError(minLengthForAddress) },
-    ],
-    dateBirth: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForDateBirth), errorText: textForRegExpError },
-    ],
-    passport: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-        { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForPassport), errorText: textForRegExpError },
-    ],
-    description: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-    ],
-    country: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-    ],
-    gender: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-    ],
-    position: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-    ],
-    staffTag: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-    ],
-    typeContract: [
-        { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-    ],
-};
 
 const checkField = (field: Field) => {
     for (let i = 0; i < validatedObj[field].length; i++) {
