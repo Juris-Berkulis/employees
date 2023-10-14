@@ -142,53 +142,55 @@ onBeforeUnmount(() => {
     <BaseFormFieldWrapper :error="fieldObj.fullName.fieldError">
         <BaseInput 
             class="form__input" 
+            :class="{form__input_error: fieldObj.fullName.fieldError}"
             v-model:inputedValue="fieldObj.fullName.fieldValue" 
-            :error="fieldObj.fullName.fieldError" 
             placeholder="Имя" 
         />
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.inn.fieldError">
         <BaseInput 
             class="form__input" 
+            :class="{form__input_error: fieldObj.inn.fieldError}"
             v-model:inputedValue="fieldObj.inn.fieldValue" 
-            :error="fieldObj.inn.fieldError" 
             placeholder="ИНН" 
         />
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.address.fieldError">
         <BaseInput 
             class="form__input" 
+            :class="{form__input_error: fieldObj.address.fieldError}"
             v-model:inputedValue="fieldObj.address.fieldValue" 
-            :error="fieldObj.address.fieldError" 
             placeholder="Адрес" 
         />
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.dateBirth.fieldError">
         <BaseInput 
             class="form__input" 
+            :class="{form__input_error: fieldObj.dateBirth.fieldError}"
             v-model:inputedValue="fieldObj.dateBirth.fieldValue" 
-            :error="fieldObj.dateBirth.fieldError" 
             placeholder="День рождения" 
         />
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.passport.fieldError">
         <BaseInput 
             class="form__input" 
+            :class="{form__input_error: fieldObj.passport.fieldError}"
             v-model:inputedValue="fieldObj.passport.fieldValue" 
-            :error="fieldObj.passport.fieldError" 
             placeholder="Паспорт" 
         />
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.description.fieldError">
         <BaseInput 
             class="form__input" 
+            :class="{form__input_error: fieldObj.description.fieldError}"
             v-model:inputedValue="fieldObj.description.fieldValue" 
-            :error="fieldObj.description.fieldError" 
             placeholder="Описание сотрудника" 
         />
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.country.fieldError">
         <BaseSelect 
+            class="form__select"
+            :class="{form__select_error: fieldObj.country.fieldError}"
             defaultValue="Страна"
             :optionsList="countryList"
             v-model:select="fieldObj.country.fieldValue"
@@ -196,6 +198,8 @@ onBeforeUnmount(() => {
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.gender.fieldError">
         <BaseSelect 
+            class="form__select"
+            :class="{form__select_error: fieldObj.gender.fieldError}"
             defaultValue="Пол"
             :optionsList="genderList"
             v-model:select="fieldObj.gender.fieldValue"
@@ -203,6 +207,8 @@ onBeforeUnmount(() => {
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.position.fieldError">
         <BaseSelect 
+            class="form__select"
+            :class="{form__select_error: fieldObj.position.fieldError}"
             defaultValue="Должность"
             :optionsList="positionList"
             v-model:select="fieldObj.position.fieldValue"
@@ -210,6 +216,8 @@ onBeforeUnmount(() => {
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.typeContract.fieldError">
         <BaseSelect 
+            class="form__select"
+            :class="{form__select_error: fieldObj.typeContract.fieldError}"
             defaultValue="Тип договора"
             :optionsList="typeContractList"
             v-model:select="fieldObj.typeContract.fieldValue"
@@ -217,6 +225,8 @@ onBeforeUnmount(() => {
     </BaseFormFieldWrapper>
     <BaseFormFieldWrapper :error="fieldObj.staffTag.fieldError">
         <BaseSelect 
+            class="form__select"
+            :class="{form__select_error: fieldObj.staffTag.fieldError}"
             defaultValue="Статус"
             :optionsList="staffTagList"
             v-model:select="fieldObj.staffTag.fieldValue"
@@ -228,6 +238,13 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
+$field-color: var(--white, #ffffff);
+$field-bc: rgba(255, 255, 255, 0.1);
+$field-trans: all 0.2s linear;
+$field-bc-focus: rgba(255, 255, 255, 0.2);
+$field-color-error: rgba(236, 63, 63, 1);
+$field-bc-error: rgba(236, 63, 63, 0.2);
+
 .title {
     margin-bottom: 40px;
     color: #ffffff;
@@ -248,13 +265,55 @@ onBeforeUnmount(() => {
 
 .form__input {
     width: 100%;
+    color: $field-color;
+    background-color: $field-bc;
+    transition: $field-trans;
+
+    &::placeholder {
+        color: #cccccc;
+    }
+    
+    &:focus {
+        background-color: $field-bc-focus;
+    }
+
+    &_error:focus, 
+    &_error {
+        color: $field-color-error;
+        background-color: $field-bc-error;
+
+        &::placeholder {
+            color: rgba(236, 63, 63, 0.5);
+        }
+    }
+}
+
+.form__select :deep(select) {
+    color: $field-color;
+    background-color: $field-bc;
+    border: none;
+    transition: $field-trans;
+}
+
+.form__select :deep(select:focus) {
+    background-color: $field-bc-focus;
+}
+
+.form__select_error :deep(select:focus),
+.form__select_error :deep(select) {
+    color: $field-color-error;
+    background-color: $field-bc-error;
+}
+
+.form__select :deep(option) {
+    color: var(--black, #041423);
 }
 
 .form__loader {
     grid-column: auto/span 2;
     height: 60px;
     margin: 0 auto;
-    color: #c2ab81;
+    color: var(--line, #dbe4ed);
 }
 
 .form__btn {

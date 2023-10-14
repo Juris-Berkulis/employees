@@ -57,8 +57,6 @@ const changeSelectValue = (event: Event) => {
 </template>
 
 <style scoped lang="scss">
-$bc-select: #e8f1f4;
-
 .filter__select-wrapper {
     position: relative;
     width: 100%;
@@ -73,7 +71,7 @@ $bc-select: #e8f1f4;
     padding: 12px 16px;
     border-radius: 4px;
     border: 1px solid #e0ebef;
-    background-color: $bc-select;
+    background-color: #e8f1f4;
     color: var(--dark_grey, #84909b);
     font-family: Montserrat;
     font-size: 15px;
@@ -107,7 +105,6 @@ $bc-select: #e8f1f4;
     transform: translateY(-50%);
     padding: 0 16px 0 10px;
     box-sizing: content-box;
-    background-color: $bc-select;
     pointer-events: none;
 }
 </style>
