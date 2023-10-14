@@ -23,7 +23,7 @@ const {
     errorForForm, 
 } = useValidation();
 
-const isRequestSent: Ref<boolean> = ref(false);
+const requestCondition: Ref<'pending' | 'fullfiled' | 'rejected'> = ref('pending');
 const timerId: Ref<ReturnType<typeof setTimeout> | undefined> = ref();
 const isLoading: Ref<boolean> = ref(false);
 
@@ -46,7 +46,7 @@ const checkAllFields = (): void => {
 };
 
 for (let field in fieldObj.value) {
-    watch([fieldObj.value[field as Field]], () => {
+    watch([() => fieldObj.value[field as Field].fieldValue], () => {
         checkField(field as Field);
     });
 };
@@ -105,19 +105,28 @@ const submit = (): void => {
             passport: fieldObj.value.passport.fieldValue,
         };
 
-        const promise: Promise<unknown> = new Promise((resolve) => {
+        const promise: Promise<unknown> = new Promise((resolve, reject) => {
             timerId.value = setTimeout(() => {
-                resolve(data);
-                clearTimeout(Number(timerId.value));
+                const success: boolean = addEmployee(data);
+
+                if (success) {
+                    resolve(data);
+                } else {
+                    reject('Сотрудник с таким ИНН уже существует!')
+                }
             }, 4000);
         });
 
         promise.then(() => {
-            console.log(data)
-            addEmployee(data)
+            console.log(data);
             resetForm();
-            isRequestSent.value = true;
             isLoading.value = false;
+            requestCondition.value = 'fullfiled';
+        }).catch((error) => {
+            console.log(error);
+            isLoading.value = false;
+            requestCondition.value = 'rejected';
+            fieldObj.value.inn.fieldError = error;
         });
     }
 };
@@ -128,8 +137,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-<h2 class="title">{{isRequestSent ? 'Сотрудник добавлен' : 'Добавить сотрудника' }}</h2>
-<form class="form" v-if="!isRequestSent" @submit.prevent="submit" method="post">
+<h2 class="title">{{requestCondition === 'fullfiled' ? 'Сотрудник добавлен' : 'Добавить сотрудника' }}</h2>
+<form class="form" v-if="requestCondition !== 'fullfiled'" @submit.prevent="submit" method="post">
     <BaseFormFieldWrapper :error="fieldObj.fullName.fieldError">
         <BaseInput 
             class="form__input" 
