@@ -12,21 +12,15 @@ import { useFilterGenderStore } from '@/stores/filterGender';
 import { useFilterPositionStore } from '@/stores/filterPosition';
 import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
 import { useFilterEmployeesBySpecificCriterion } from '@/composables/filterEmployeesBySpecificCriterion';
+import { useFilterEmployeesByMultipleCriteria } from '@/composables/filterEmployeesByMultipleCriteria';
 
 const { employeesData } = storeToRefs(useEmployeesDataStore());
 const { filterCountry } = storeToRefs(useFilterCountryStore());
 const { filterGender } = storeToRefs(useFilterGenderStore());
 const { filterPosition } = storeToRefs(useFilterPositionStore());
-const {
-    filterTypeContract,
-    isFilterTypeContractEnabled,
-} = storeToRefs(useFilterTypeContractStore());
 const { searchValue } = storeToRefs(useSearchEmployeesStore());
-const filterStaffTagStore = useFilterStaffTagStore();
-const {
-    filterStaffTag,
-    isFilterStaffTagEnabled,
-} = storeToRefs(filterStaffTagStore);
+const { filterStaffTag, isFilterStaffTagEnabled } = storeToRefs(useFilterStaffTagStore());
+const { filterTypeContract, isFilterTypeContractEnabled } = storeToRefs(useFilterTypeContractStore());
 
 const loadStep: number = 4;
 const listPart: Ref<number> = ref(1);
@@ -45,15 +39,8 @@ const employeesListWithFilteredCountry = useFilterEmployeesBySpecificCriterion(e
 const employeesListWithFilteredGender = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredCountry, filterGender, 'gender');
 const employeesListWithFilteredPosition = useFilterEmployeesBySpecificCriterion(employeesListWithFilteredGender, filterPosition, 'position');
 
-const employeesListWithFilteredTypeContract: ComputedRef<Employee[]> = computed(() => {
-    if (isFilterTypeContractEnabled.value) return employeesListWithFilteredPosition.value.filter((employee) => filterTypeContract.value[employee.type_contract.id])
-    else return employeesListWithFilteredPosition.value
-});
-
-const employeesListWithFilteredStaffTag: ComputedRef<Employee[]> = computed(() => {
-    if (isFilterStaffTagEnabled.value) return employeesListWithFilteredTypeContract.value.filter((employee) => filterStaffTag.value[employee.status.tag.id])
-    else return employeesListWithFilteredTypeContract.value
-});
+const employeesListWithFilteredTypeContract = useFilterEmployeesByMultipleCriteria(employeesListWithFilteredPosition, isFilterTypeContractEnabled, filterTypeContract, 'type_contract');
+const employeesListWithFilteredStaffTag = useFilterEmployeesByMultipleCriteria(employeesListWithFilteredTypeContract, isFilterStaffTagEnabled, filterStaffTag, 'status');
 
 const employeesListWithSearch: ComputedRef<Employee[]> = computed(() => {
     return employeesListWithFilteredStaffTag.value.filter((employee) => {
@@ -61,14 +48,8 @@ const employeesListWithSearch: ComputedRef<Employee[]> = computed(() => {
     })
 });
 
-const employeesListWithSorting: ComputedRef<Employee[]> = computed(() => {
-    return [...employeesListWithSearch.value].sort((employee1, employee2) => {
-        return employee1.status.tag.id - employee2.status.tag.id
-    })
-});
-
 const employeesListForShow: ComputedRef<Employee[]> = computed(() => {
-    return employeesListWithSorting.value.slice(0, listPart.value * loadStep)
+    return employeesListWithSearch.value.slice(0, listPart.value * loadStep)
 });
 
 onBeforeUnmount(() => {
@@ -93,7 +74,7 @@ onBeforeUnmount(() => {
     </div>
     <button 
         class="employees-list__more-btn button button_rectangle button_animation"
-        v-if="employeesListForShow < employeesListWithSorting"
+        v-if="employeesListForShow < employeesListWithSearch"
         @click="nextListPart"
     >
         <IconSpiner 

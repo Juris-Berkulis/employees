@@ -13,15 +13,8 @@ import { staffTagList } from '@/data/staffTag';
 import { genderList } from '@/data/gender';
 import { typeContractList } from '@/data/typeContract';
 
-const {
-    addEmployee,
-} = useEmployeesDataStore();
-
-const { 
-    fieldObj,
-    validatedObj,
-    errorForForm, 
-} = useValidation();
+const { addEmployee } = useEmployeesDataStore();
+const { fieldObj, validatedObj, errorForForm } = useValidation();
 
 const requestCondition: Ref<'pending' | 'fullfiled' | 'rejected'> = ref('pending');
 const timerId: Ref<ReturnType<typeof setTimeout> | undefined> = ref();

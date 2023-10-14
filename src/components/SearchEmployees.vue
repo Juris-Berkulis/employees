@@ -4,9 +4,7 @@ import { storeToRefs } from 'pinia';
 import IconSearch from '@/components/icons/IconSearch.vue';
 import { useSearchEmployeesStore } from '@/stores/searchEmployees';
 
-const {
-    searchValue,
-} = storeToRefs(useSearchEmployeesStore());
+const { searchValue } = storeToRefs(useSearchEmployeesStore());
 
 const timerId: Ref<ReturnType<typeof setTimeout> | null> = ref(null);
 

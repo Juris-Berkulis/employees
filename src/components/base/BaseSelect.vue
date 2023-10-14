@@ -7,6 +7,7 @@ import type { StaffTag, StaffTagId } from '@/data/staffTag';
 import type { TypeContract, TypeContractId } from '@/data/typeContract';
 
 type Option = Country | Gender | Position | TypeContract | StaffTag;
+
 interface Props<T extends Option = Option> {
     title?: string,
     defaultValue: string,

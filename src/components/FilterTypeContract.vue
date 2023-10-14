@@ -4,9 +4,7 @@ import IconCheck from '@/components/icons/IconCheck.vue';
 import { typeContractList, type TypeContractId } from '@/data/typeContract';
 import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
 
-const {
-    filterTypeContractLocal,
-} = storeToRefs(useFilterTypeContractStore());
+const { filterTypeContractLocal } = storeToRefs(useFilterTypeContractStore());
 
 const isActive = (id: TypeContractId): boolean | undefined => {
     return filterTypeContractLocal.value[id]
