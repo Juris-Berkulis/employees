@@ -36,48 +36,46 @@ const isRequestSent: Ref<boolean> = ref(false);
 const timerId: Ref<ReturnType<typeof setTimeout> | undefined> = ref();
 const isLoading: Ref<boolean> = ref(false);
 
-const inputedFullName: Ref<string> = ref('');
-const inputedInn: Ref<string> = ref('');
-const inputedAddress: Ref<string> = ref('');
-const inputedDateBirth: Ref<string> = ref('');
-const inputedPassport: Ref<string> = ref('');
-const inputedStatusDescription: Ref<string> = ref('');
-const selectedCountry: Ref<CountryId | ''> = ref('');
-const selectedGender: Ref<GenderId | ''> = ref('');
-const selectedPosition: Ref<PositionId | ''> = ref('');
-const selectedStaffTag: Ref<StaffTagId | ''> = ref('');
-const selectedTypeContract: Ref<TypeContractId | ''> = ref('');
-
-const errorForFullName: Ref<string> = ref('');
-const errorForInn: Ref<string> = ref('');
-const errorForAddress: Ref<string> = ref('');
-const errorForDateBirth: Ref<string> = ref('');
-const errorForPassport: Ref<string> = ref('');
-const errorForStatusDescription: Ref<string> = ref('');
-const errorForCountry: Ref<string> = ref('');
-const errorForGender: Ref<string> = ref('');
-const errorForPosition: Ref<string> = ref('');
-const errorForStaffTag: Ref<string> = ref('');
-const errorForTypeContract: Ref<string> = ref('');
-
-const errorForForm: ComputedRef<boolean> = computed(() => {
-    return !!errorForFullName.value
-        || !!errorForInn.value
-        || !!errorForAddress.value
-        || !!errorForDateBirth.value
-        || !!errorForPassport.value
-        || !!errorForStatusDescription.value
-        || !!errorForCountry.value
-        || !!errorForGender.value
-        || !!errorForPosition.value
-        || !!errorForStaffTag.value
-        || !!errorForTypeContract.value
-});
-
-type Field = 'fullName' | 'inn' | 'addredd' | 'dateBirth' | 'passport' | 'description' 
+type Field = 'fullName' | 'inn' | 'address' | 'dateBirth' | 'passport' | 'description' 
     | 'country' | 'gender' | 'position' | 'staffTag' | 'typeContract';
 
-type FieldOptions = { isValid: () => boolean, error: Ref<string>, errorText: string };
+type FieldInput = Exclude<Field, 'country' | 'gender' | 'position' | 'staffTag' | 'typeContract'>;
+
+type FieldValueAndError<T> = { fieldValue: T, fieldError: string };
+
+type FieldsObj = {
+    [key in FieldInput]: FieldValueAndError<string>;
+} & {
+    'country': FieldValueAndError<CountryId | ''>,
+    'gender': FieldValueAndError<GenderId | ''>,
+    'position': FieldValueAndError<PositionId | ''>,
+    'staffTag': FieldValueAndError<StaffTagId | ''>,
+    'typeContract': FieldValueAndError<TypeContractId | ''>,
+};
+
+const fieldObj: Ref<FieldsObj> = ref({
+    fullName: { fieldValue: '', fieldError: '' },
+    inn: { fieldValue: '', fieldError: '' },
+    address: { fieldValue: '', fieldError: '' },
+    dateBirth: { fieldValue: '', fieldError: '' },
+    passport: { fieldValue: '', fieldError: '' },
+    description: { fieldValue: '', fieldError: '' },
+    country: { fieldValue: '', fieldError: '' },
+    gender: { fieldValue: '', fieldError: '' },
+    position: { fieldValue: '', fieldError: '' },
+    staffTag: { fieldValue: '', fieldError: '' },
+    typeContract: { fieldValue: '', fieldError: '' },
+});
+
+const errorForForm: ComputedRef<boolean> = computed(() => {
+    for (let field in fieldObj.value) {
+        if (fieldObj.value[field as Field].fieldError) return true
+    }
+
+    return false
+});
+
+type FieldOptions = { isValid: () => boolean, errorText: string };
 
 type ValidatedObj = {
     [key in Field]: FieldOptions[];
@@ -85,42 +83,42 @@ type ValidatedObj = {
 
 const validatedObj: ValidatedObj = {
     fullName: [
-        { isValid: () => requiredField(inputedFullName.value), error: errorForFullName, errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(inputedFullName.value, regExpForFullName), error: errorForFullName, errorText: textForRegExpError },
+        { isValid: () => requiredField(fieldObj.value.fullName.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: () => regExpMatching(fieldObj.value.fullName.fieldValue, regExpForFullName), errorText: textForRegExpError },
     ],
     inn: [
-        { isValid: () => requiredField(inputedInn.value), error: errorForInn, errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(inputedInn.value, regExpForInn), error: errorForInn, errorText: textForRegExpError },
+        { isValid: () => requiredField(fieldObj.value.inn.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: () => regExpMatching(fieldObj.value.inn.fieldValue, regExpForInn), errorText: textForRegExpError },
     ],
-    addredd: [
-        { isValid: () => requiredField(inputedAddress.value), error: errorForAddress, errorText: textForRequiredFieldError },
-        { isValid: () => minLength(inputedAddress.value, minLengthForAddress), error: errorForAddress, errorText: textForMinLengthError(minLengthForAddress) },
+    address: [
+        { isValid: () => requiredField(fieldObj.value.address.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: () => minLength(fieldObj.value.address.fieldValue, minLengthForAddress), errorText: textForMinLengthError(minLengthForAddress) },
     ],
     dateBirth: [
-        { isValid: () => requiredField(inputedDateBirth.value), error: errorForDateBirth, errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(inputedDateBirth.value, regExpForDateBirth), error: errorForDateBirth, errorText: textForRegExpError },
+        { isValid: () => requiredField(fieldObj.value.dateBirth.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: () => regExpMatching(fieldObj.value.dateBirth.fieldValue, regExpForDateBirth), errorText: textForRegExpError },
     ],
     passport: [
-        { isValid: () => requiredField(inputedPassport.value), error: errorForPassport, errorText: textForRequiredFieldError },
-        { isValid: () => regExpMatching(inputedPassport.value, regExpForPassport), error: errorForPassport, errorText: textForRegExpError },
+        { isValid: () => requiredField(fieldObj.value.passport.fieldValue), errorText: textForRequiredFieldError },
+        { isValid: () => regExpMatching(fieldObj.value.passport.fieldValue, regExpForPassport), errorText: textForRegExpError },
     ],
     description: [
-        { isValid: () => requiredField(inputedStatusDescription.value), error: errorForStatusDescription, errorText: textForRequiredFieldError },
+        { isValid: () => requiredField(fieldObj.value.description.fieldValue), errorText: textForRequiredFieldError },
     ],
     country: [
-        { isValid: () => requiredField(selectedCountry.value), error: errorForCountry, errorText: textForRequiredFieldError },
+        { isValid: () => requiredField(fieldObj.value.country.fieldValue), errorText: textForRequiredFieldError },
     ],
     gender: [
-        { isValid: () => requiredField(selectedGender.value), error: errorForGender, errorText: textForRequiredFieldError },
+        { isValid: () => requiredField(fieldObj.value.gender.fieldValue), errorText: textForRequiredFieldError },
     ],
     position: [
-        { isValid: () => requiredField(selectedPosition.value), error: errorForPosition, errorText: textForRequiredFieldError },
+        { isValid: () => requiredField(fieldObj.value.position.fieldValue), errorText: textForRequiredFieldError },
     ],
     staffTag: [
-        { isValid: () => requiredField(selectedStaffTag.value), error: errorForStaffTag, errorText: textForRequiredFieldError },
+        { isValid: () => requiredField(fieldObj.value.staffTag.fieldValue), errorText: textForRequiredFieldError },
     ],
     typeContract: [
-        { isValid: () => requiredField(selectedTypeContract.value), error: errorForTypeContract, errorText: textForRequiredFieldError },
+        { isValid: () => requiredField(fieldObj.value.typeContract.fieldValue), errorText: textForRequiredFieldError },
     ],
 };
 
@@ -129,11 +127,11 @@ const checkField = (field: Field) => {
         const fieldOptions: FieldOptions = validatedObj[field][i];
 
         if (!fieldOptions.isValid()) {
-            fieldOptions.error.value = fieldOptions.errorText; return
+            fieldObj.value[field].fieldError = fieldOptions.errorText; return
         }
     }
 
-    validatedObj[field][0].error.value = '';
+    fieldObj.value[field].fieldError = '';
 };
 
 const checkAllFields = (): void => {
@@ -142,30 +140,16 @@ const checkAllFields = (): void => {
     }
 };
 
-watch(inputedFullName, () => checkField('fullName'));
-watch(inputedInn, () => checkField('inn'));
-watch(inputedAddress, () => checkField('addredd'));
-watch(inputedDateBirth, () => checkField('dateBirth'));
-watch(inputedPassport, () => checkField('passport'));
-watch(inputedStatusDescription, () => checkField('description'));
-watch(selectedCountry, () => checkField('country'));
-watch(selectedGender, () => checkField('gender'));
-watch(selectedPosition, () => checkField('position'));
-watch(selectedStaffTag, () => checkField('staffTag'));
-watch(selectedTypeContract, () => checkField('typeContract'));
+for (let field in fieldObj.value) {
+    watch([fieldObj.value[field as Field]], () => {
+        checkField(field as Field);
+    });
+};
 
 const resetForm = (): void => {
-    inputedFullName.value = '';
-    inputedInn.value = '';
-    inputedAddress.value = '';
-    inputedDateBirth.value = '';
-    inputedPassport.value = '';
-    inputedStatusDescription.value = '';
-    selectedCountry.value = '';
-    selectedGender.value = '';
-    selectedPosition.value = '';
-    selectedStaffTag.value = '';
-    selectedTypeContract.value = '';
+    for (let field in fieldObj.value) {
+        fieldObj.value[field as Field].fieldValue = '';
+    }
 };
 
 const submit = (): void => {
@@ -175,31 +159,31 @@ const submit = (): void => {
         isLoading.value = true;
 
         const data: Employee = {
-            full_name: inputedFullName.value,
-            inn: inputedInn.value,
-            address: inputedAddress.value,
-            date_birth: inputedDateBirth.value,
+            full_name: fieldObj.value.fullName.fieldValue,
+            inn: fieldObj.value.inn.fieldValue,
+            address: fieldObj.value.address.fieldValue,
+            date_birth: fieldObj.value.dateBirth.fieldValue,
             age: 21,
             type_contract: (typeContractList.find((typeContractObj) => {
-                return typeContractObj.id === +selectedTypeContract.value
+                return typeContractObj.id === +fieldObj.value.typeContract.fieldValue
             }))!,
             get type_contract_id () {
                 return this.type_contract.id
             },
             gender: (genderList.find((genderObj) => {
-                return genderObj.id === +selectedGender.value
+                return genderObj.id === +fieldObj.value.gender.fieldValue
             }))!,
             get gender_id () {
                 return this.gender.id
             },
             country: (countryList.find((countryObj) => {
-                return countryObj.id === +selectedCountry.value
+                return countryObj.id === +fieldObj.value.country.fieldValue
             }))!,
             get country_id () {
                 return this.country.id
             },
             position: (positionList.find((positionObj) => {
-                return positionObj.id === +selectedPosition.value
+                return positionObj.id === +fieldObj.value.position.fieldValue
             }))!,
             get position_id () {
                 return this.position.id
@@ -209,11 +193,11 @@ const submit = (): void => {
                     return this.tag.id
                 },
                 tag: (staffTagList.find((staffTagObj) => {
-                    return staffTagObj.id === +selectedStaffTag.value
+                    return staffTagObj.id === +fieldObj.value.staffTag.fieldValue
                 }))!,
-                description: inputedStatusDescription.value,
+                description: fieldObj.value.description.fieldValue,
             },
-            passport: inputedPassport.value,
+            passport: fieldObj.value.passport.fieldValue,
         };
 
         const promise: Promise<unknown> = new Promise((resolve) => {
@@ -241,87 +225,87 @@ onBeforeUnmount(() => {
 <template>
 <h2 class="title">{{isRequestSent ? 'Сотрудник добавлен' : 'Добавить сотрудника' }}</h2>
 <form class="form" v-if="!isRequestSent" @submit.prevent="submit" method="post">
-    <BaseFormFieldWrapper :error="errorForFullName">
+    <BaseFormFieldWrapper :error="fieldObj.fullName.fieldError">
         <BaseInput 
             class="form__input" 
-            v-model:inputedValue="inputedFullName" 
-            :error="errorForFullName" 
+            v-model:inputedValue="fieldObj.fullName.fieldValue" 
+            :error="fieldObj.fullName.fieldError" 
             placeholder="Имя" 
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForInn">
+    <BaseFormFieldWrapper :error="fieldObj.inn.fieldError">
         <BaseInput 
             class="form__input" 
-            v-model:inputedValue="inputedInn" 
-            :error="errorForInn" 
+            v-model:inputedValue="fieldObj.inn.fieldValue" 
+            :error="fieldObj.inn.fieldError" 
             placeholder="ИНН" 
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForAddress">
+    <BaseFormFieldWrapper :error="fieldObj.address.fieldError">
         <BaseInput 
             class="form__input" 
-            v-model:inputedValue="inputedAddress" 
-            :error="errorForAddress" 
+            v-model:inputedValue="fieldObj.address.fieldValue" 
+            :error="fieldObj.address.fieldError" 
             placeholder="Адрес" 
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForDateBirth">
+    <BaseFormFieldWrapper :error="fieldObj.dateBirth.fieldError">
         <BaseInput 
             class="form__input" 
-            v-model:inputedValue="inputedDateBirth" 
-            :error="errorForDateBirth" 
+            v-model:inputedValue="fieldObj.dateBirth.fieldValue" 
+            :error="fieldObj.dateBirth.fieldError" 
             placeholder="День рождения" 
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForPassport">
+    <BaseFormFieldWrapper :error="fieldObj.passport.fieldError">
         <BaseInput 
             class="form__input" 
-            v-model:inputedValue="inputedPassport" 
-            :error="errorForPassport" 
+            v-model:inputedValue="fieldObj.passport.fieldValue" 
+            :error="fieldObj.passport.fieldError" 
             placeholder="Паспорт" 
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForStatusDescription">
+    <BaseFormFieldWrapper :error="fieldObj.description.fieldError">
         <BaseInput 
             class="form__input" 
-            v-model:inputedValue="inputedStatusDescription" 
-            :error="errorForStatusDescription" 
+            v-model:inputedValue="fieldObj.description.fieldValue" 
+            :error="fieldObj.description.fieldError" 
             placeholder="Описание сотрудника" 
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForCountry">
+    <BaseFormFieldWrapper :error="fieldObj.country.fieldError">
         <BaseSelect 
             defaultValue="Страна"
             :optionsList="countryList"
-            v-model:select="selectedCountry"
+            v-model:select="fieldObj.country.fieldValue"
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForGender">
+    <BaseFormFieldWrapper :error="fieldObj.gender.fieldError">
         <BaseSelect 
             defaultValue="Пол"
             :optionsList="genderList"
-            v-model:select="selectedGender"
+            v-model:select="fieldObj.gender.fieldValue"
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForPosition">
+    <BaseFormFieldWrapper :error="fieldObj.position.fieldError">
         <BaseSelect 
             defaultValue="Должность"
             :optionsList="positionList"
-            v-model:select="selectedPosition"
+            v-model:select="fieldObj.position.fieldValue"
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForTypeContract">
+    <BaseFormFieldWrapper :error="fieldObj.typeContract.fieldError">
         <BaseSelect 
             defaultValue="Тип договора"
             :optionsList="typeContractList"
-            v-model:select="selectedTypeContract"
+            v-model:select="fieldObj.typeContract.fieldValue"
         />
     </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="errorForStaffTag">
+    <BaseFormFieldWrapper :error="fieldObj.staffTag.fieldError">
         <BaseSelect 
             defaultValue="Статус"
             :optionsList="staffTagList"
-            v-model:select="selectedStaffTag"
+            v-model:select="fieldObj.staffTag.fieldValue"
         />
     </BaseFormFieldWrapper>
     <BaseLoader class="form__loader" v-if="isLoading" />
