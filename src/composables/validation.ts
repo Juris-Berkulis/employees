@@ -91,9 +91,11 @@ export const useValidation = () => {
 
     const pastDate = (value: string) => {
         const nowMilliseconds: number = Date.now();
-        const dataBirthMilliseconds: number = new Date(value).getTime();
+        const [year, mounth, day] = value.split('.').reverse();
+        const dataBirthMilliseconds: number = new Date(+year, +mounth - 1, +day).getTime();
+
         return nowMilliseconds > dataBirthMilliseconds
-    }
+    };
 
     const validatedObj: ValidatedObj = {
         fullName: [

@@ -7,10 +7,6 @@ export const useDate = () => {
 
         const yearsCount = now.getFullYear() - dateBirth.getFullYear();
 
-        console.log(now)
-        console.log(dateBirthInCurrentYear)
-        console.log(now > dateBirthInCurrentYear)
-
         return now < dateBirthInCurrentYear ? yearsCount - 1 : yearsCount
     };
 

@@ -64,7 +64,8 @@ const submit = (): void => {
             address: fieldObj.value.address.fieldValue,
             date_birth: fieldObj.value.dateBirth.fieldValue,
             get age () {
-                return getCurrentAge(new Date(this.date_birth))
+                const [year, mounth, day] = this.date_birth.split('.').reverse();
+                return getCurrentAge(new Date(+year, +mounth - 1, +day))
             },
             type_contract: (typeContractList.find((typeContractObj) => {
                 return typeContractObj.id === +fieldObj.value.typeContract.fieldValue
