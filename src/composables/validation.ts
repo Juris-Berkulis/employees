@@ -1,16 +1,28 @@
 import { ref, type Ref, computed, type ComputedRef } from 'vue';
-import type { CountryId } from "@/data/country";
-import type { GenderId } from "@/data/gender";
-import type { PositionId } from "@/data/position";
-import type { StaffTagId } from "@/data/staffTag";
-import type { TypeContractId } from "@/data/typeContract";
+import { countryList, type Country, type CountryId } from "@/data/country";
+import { genderList, type Gender, type GenderId } from "@/data/gender";
+import { positionList, type Position, type PositionId } from "@/data/position";
+import { staffTagList, type StaffTag, type StaffTagId } from "@/data/staffTag";
+import { typeContractList, type TypeContract, type TypeContractId } from "@/data/typeContract";
 
 export type Field = 'fullName' | 'inn' | 'address' | 'dateBirth' | 'passport' | 'description' 
     | 'country' | 'gender' | 'position' | 'staffTag' | 'typeContract';
 
 type FieldInput = Exclude<Field, 'country' | 'gender' | 'position' | 'staffTag' | 'typeContract'>;
 
-type FieldValueAndError<T> = { fieldValue: T, fieldError: string };
+type OptionsList = Country[] | Gender[] | Position[] | StaffTag[] | TypeContract[];
+export type OptionsIds = CountryId | GenderId | PositionId | StaffTagId | TypeContractId;
+
+type FieldAdditionallyInput = { placeholder?: string };
+type FieldAdditionallySelect = { 
+    defaultValue?: string,
+    optionsList?: OptionsList,
+};
+
+type FieldValueAndError<T> = {
+    fieldValue: T, 
+    fieldError: string,
+} & (FieldAdditionallyInput & FieldAdditionallySelect);
 
 type FieldsObj = {
     [key in FieldInput]: FieldValueAndError<string>;
@@ -38,20 +50,22 @@ export const useValidation = () => {
     const textForRegExpError = 'Неверный формат';
     const textForMinLengthError = (minLength: number): string => `Минимальная длина ${minLength} символов`;
 
-    const fieldValueAndError = <T>(): FieldValueAndError<T> => ({ fieldValue: <T>'', fieldError: '' });
+    const fieldValueAndError = <T extends string | OptionsIds | ''>(
+        params: T extends string ? FieldAdditionallyInput : FieldAdditionallySelect
+    ): FieldValueAndError<T> => ({ fieldValue: <T>'', fieldError: '', ...params });
 
     const fieldObj: Ref<FieldsObj> = ref({
-        fullName: fieldValueAndError<string>(),
-        inn: fieldValueAndError<string>(),
-        address: fieldValueAndError<string>(),
-        dateBirth: fieldValueAndError<string>(),
-        passport: fieldValueAndError<string>(),
-        description: fieldValueAndError<string>(),
-        country: fieldValueAndError<CountryId | ''>(),
-        gender: fieldValueAndError<GenderId | ''>(),
-        position: fieldValueAndError<PositionId | ''>(),
-        staffTag: fieldValueAndError<StaffTagId | ''>(),
-        typeContract: fieldValueAndError<TypeContractId | ''>(),
+        fullName: fieldValueAndError<string>({placeholder: 'Имя'}),
+        inn: fieldValueAndError<string>({placeholder: 'ИНН'}),
+        address: fieldValueAndError<string>({placeholder: 'Адрес'}),
+        dateBirth: fieldValueAndError<string>({placeholder: 'День рождения'}),
+        passport: fieldValueAndError<string>({placeholder: 'Паспорт'}),
+        description: fieldValueAndError<string>({placeholder: 'Описание сотрудника'}),
+        country: fieldValueAndError<CountryId | ''>({defaultValue: 'Страна', optionsList: countryList}),
+        gender: fieldValueAndError<GenderId | ''>({defaultValue: 'Пол', optionsList: genderList}),
+        position: fieldValueAndError<PositionId | ''>({defaultValue: 'Должность', optionsList: positionList}),
+        staffTag: fieldValueAndError<StaffTagId | ''>({defaultValue: 'Статус', optionsList: staffTagList}),
+        typeContract: fieldValueAndError<TypeContractId | ''>({defaultValue: 'Тип договора', optionsList: typeContractList}),
     });
 
     const errorForForm: ComputedRef<boolean> = computed(() => {

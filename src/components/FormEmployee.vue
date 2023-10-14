@@ -5,7 +5,7 @@ import BaseSelect from '@/components/base/BaseSelect.vue';
 import BaseInput from '@/components/base/BaseInput.vue';
 import BaseLoader from '@/components/base/BaseLoader.vue';
 import { useEmployeesDataStore } from '@/stores/employeesData';
-import { useValidation, type Field, type FieldOptions } from '@/composables/validation';
+import { useValidation, type Field, type FieldOptions, type OptionsIds } from '@/composables/validation';
 import type { Employee } from '@/data/employees';
 import { countryList } from '@/data/country';
 import { positionList } from '@/data/position';
@@ -139,97 +139,21 @@ onBeforeUnmount(() => {
 <template>
 <h2 class="title">{{requestCondition === 'fullfiled' ? 'Сотрудник добавлен' : 'Добавить сотрудника' }}</h2>
 <form class="form" v-if="requestCondition !== 'fullfiled'" @submit.prevent="submit" method="post">
-    <BaseFormFieldWrapper :error="fieldObj.fullName.fieldError">
+    <BaseFormFieldWrapper v-for="fieldValue, field of fieldObj" :key="field" :error="fieldValue.fieldError">
         <BaseInput 
             class="form__input" 
-            :class="{form__input_error: fieldObj.fullName.fieldError}"
-            v-model:inputedValue="fieldObj.fullName.fieldValue" 
-            placeholder="Имя" 
+            v-if="fieldValue.placeholder"
+            :class="{form__input_error: fieldValue.fieldError}"
+            v-model:inputedValue="<string>fieldValue.fieldValue" 
+            :placeholder="fieldValue.placeholder" 
         />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.inn.fieldError">
-        <BaseInput 
-            class="form__input" 
-            :class="{form__input_error: fieldObj.inn.fieldError}"
-            v-model:inputedValue="fieldObj.inn.fieldValue" 
-            placeholder="ИНН" 
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.address.fieldError">
-        <BaseInput 
-            class="form__input" 
-            :class="{form__input_error: fieldObj.address.fieldError}"
-            v-model:inputedValue="fieldObj.address.fieldValue" 
-            placeholder="Адрес" 
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.dateBirth.fieldError">
-        <BaseInput 
-            class="form__input" 
-            :class="{form__input_error: fieldObj.dateBirth.fieldError}"
-            v-model:inputedValue="fieldObj.dateBirth.fieldValue" 
-            placeholder="День рождения" 
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.passport.fieldError">
-        <BaseInput 
-            class="form__input" 
-            :class="{form__input_error: fieldObj.passport.fieldError}"
-            v-model:inputedValue="fieldObj.passport.fieldValue" 
-            placeholder="Паспорт" 
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.description.fieldError">
-        <BaseInput 
-            class="form__input" 
-            :class="{form__input_error: fieldObj.description.fieldError}"
-            v-model:inputedValue="fieldObj.description.fieldValue" 
-            placeholder="Описание сотрудника" 
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.country.fieldError">
         <BaseSelect 
             class="form__select"
-            :class="{form__select_error: fieldObj.country.fieldError}"
-            defaultValue="Страна"
-            :optionsList="countryList"
-            v-model:select="fieldObj.country.fieldValue"
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.gender.fieldError">
-        <BaseSelect 
-            class="form__select"
-            :class="{form__select_error: fieldObj.gender.fieldError}"
-            defaultValue="Пол"
-            :optionsList="genderList"
-            v-model:select="fieldObj.gender.fieldValue"
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.position.fieldError">
-        <BaseSelect 
-            class="form__select"
-            :class="{form__select_error: fieldObj.position.fieldError}"
-            defaultValue="Должность"
-            :optionsList="positionList"
-            v-model:select="fieldObj.position.fieldValue"
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.typeContract.fieldError">
-        <BaseSelect 
-            class="form__select"
-            :class="{form__select_error: fieldObj.typeContract.fieldError}"
-            defaultValue="Тип договора"
-            :optionsList="typeContractList"
-            v-model:select="fieldObj.typeContract.fieldValue"
-        />
-    </BaseFormFieldWrapper>
-    <BaseFormFieldWrapper :error="fieldObj.staffTag.fieldError">
-        <BaseSelect 
-            class="form__select"
-            :class="{form__select_error: fieldObj.staffTag.fieldError}"
-            defaultValue="Статус"
-            :optionsList="staffTagList"
-            v-model:select="fieldObj.staffTag.fieldValue"
+            :class="{form__select_error: fieldValue.fieldError}"
+            v-else-if="fieldValue.optionsList"
+            :defaultValue="fieldValue.defaultValue!"
+            :optionsList="fieldValue.optionsList"
+            v-model:select="<OptionsIds>fieldValue.fieldValue"
         />
     </BaseFormFieldWrapper>
     <BaseLoader class="form__loader" v-if="isLoading" />
