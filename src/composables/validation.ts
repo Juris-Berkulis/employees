@@ -48,6 +48,7 @@ export const useValidation = () => {
     const regExpForPassport = /^\d{10}$/;
     const textForRequiredFieldError = 'Поле не заполненно';
     const textForRegExpError = 'Неверный формат';
+    const textForPastDateError = 'Дата должна быть в прошлом';
     const textForMinLengthError = (minLength: number): string => `Минимальная длина ${minLength} символов`;
 
     const fieldValueAndError = <T extends string | OptionsIds | ''>(
@@ -88,6 +89,12 @@ export const useValidation = () => {
         return value.length >= minStrLength
     };
 
+    const pastDate = (value: string) => {
+        const nowMilliseconds: number = Date.now();
+        const dataBirthMilliseconds: number = new Date(value).getTime();
+        return nowMilliseconds > dataBirthMilliseconds
+    }
+
     const validatedObj: ValidatedObj = {
         fullName: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
@@ -104,6 +111,7 @@ export const useValidation = () => {
         dateBirth: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
             { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForDateBirth), errorText: textForRegExpError },
+            { isValid: (fieldValue) => pastDate(fieldValue), errorText: textForPastDateError },
         ],
         passport: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },

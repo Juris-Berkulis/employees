@@ -6,6 +6,7 @@ import BaseInput from '@/components/base/BaseInput.vue';
 import BaseLoader from '@/components/base/BaseLoader.vue';
 import { useEmployeesDataStore } from '@/stores/employeesData';
 import { useValidation, type Field, type FieldOptions, type OptionsIds } from '@/composables/validation';
+import { useDate } from '@/composables/date';
 import type { Employee } from '@/data/employees';
 import { countryList } from '@/data/country';
 import { positionList } from '@/data/position';
@@ -15,6 +16,7 @@ import { typeContractList } from '@/data/typeContract';
 
 const { addEmployee } = useEmployeesDataStore();
 const { fieldObj, validatedObj, errorForForm } = useValidation();
+const { getCurrentAge } = useDate();
 
 const requestCondition: Ref<'pending' | 'fullfiled' | 'rejected'> = ref('pending');
 const timerId: Ref<ReturnType<typeof setTimeout> | undefined> = ref();
@@ -61,7 +63,9 @@ const submit = (): void => {
             inn: fieldObj.value.inn.fieldValue,
             address: fieldObj.value.address.fieldValue,
             date_birth: fieldObj.value.dateBirth.fieldValue,
-            age: 21,
+            get age () {
+                return getCurrentAge(new Date(this.date_birth))
+            },
             type_contract: (typeContractList.find((typeContractObj) => {
                 return typeContractObj.id === +fieldObj.value.typeContract.fieldValue
             }))!,
