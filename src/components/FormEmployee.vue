@@ -269,6 +269,12 @@ $field-bc-error: rgba(236, 63, 63, 0.2);
     & > *:first-child {
         grid-column: auto/span 2;
     }
+
+    @media (max-width: $sp-n) {
+        & > * {
+            grid-column: auto/span 2;
+        }
+    }
 }
 
 .form__input {

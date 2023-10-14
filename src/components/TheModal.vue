@@ -55,8 +55,7 @@ defineEmits(['update:isShowModal']);
 .modal__container {
     position: relative;
     width: 1080px;
-    height: 100%;
-    max-height: 70vh;
+    height: 70vh;
     padding: 56px 80px;
     border-radius: 16px;
     background-color: var(--blue, #2a358c);
@@ -72,7 +71,7 @@ defineEmits(['update:isShowModal']);
     @media (max-width: $sp-s) {
         & {
             width: 100%;
-            max-height: 100%;
+            height: 100%;
             padding: 0 16px;
         }
     }
