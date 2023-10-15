@@ -10,10 +10,10 @@ type FilterAside = CountryId | GenderId | PositionId;
 export type ActionOfChange = 'applay' | 'reset';
 
 export const useFiltersAside = <T extends FilterAside>() => {
-    const defaultValue = '';
+    const defaultValue: '' = '';
 
-    const filterGlobal: Ref<T | ''> = ref(defaultValue);
-    const filterLocal: Ref<T | ''> = ref(defaultValue);
+    const filterGlobal: Ref<T | typeof defaultValue> = ref(defaultValue);
+    const filterLocal: Ref<T | typeof defaultValue> = ref(defaultValue);
 
     const applayFilter = (): void => {
         filterGlobal.value = filterLocal.value;
