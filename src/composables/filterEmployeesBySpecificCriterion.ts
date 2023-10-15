@@ -6,19 +6,22 @@ import type { PositionId } from "@/data/position";
 
 type Criterion = 'country' | 'gender' | 'position';
 
-type Id<T> = '' | (
+type Id<T extends Criterion> = '' | (
     T extends 'country' ? CountryId : 
     T extends 'gender' ? GenderId : 
     T extends 'position' ? PositionId : 
     never
 );
 
-export const useFilterEmployeesBySpecificCriterion = <T extends Criterion = Criterion>(
+export const useFilterEmployeesBySpecificCriterion = (
     employeesList: Employee[] | ComputedRef<Employee[]> | Ref<Employee[]>, 
-    filter: Ref<Id<T>>, criterion: T
+    filter: Ref<Id<Criterion>>, 
+    criterion: Criterion,
 ) => {
     const employeesListWithFiltered: ComputedRef<Employee[]> = computed(() => {
-        if (filter.value !== '') return toValue(toValue(employeesList)).filter((employee) => employee[criterion].id === filter.value)
+        if (filter.value !== '') return toValue(toValue(employeesList)).filter((employee) => {
+            return employee[criterion].id === filter.value
+        })
         else return toValue(toValue(employeesList))
     });
 

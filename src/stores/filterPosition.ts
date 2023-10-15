@@ -1,24 +1,17 @@
-import { ref, type Ref } from "vue";
 import { defineStore } from "pinia";
 import type { PositionId } from "@/data/position";
+import { useFiltersAside } from "@/composables/filtersCpecific";
 
 export const useFilterPositionStore = defineStore('filterPosition', () => {
-    const filterPosition: Ref<PositionId | ''> = ref('');
-    const filterPositionLocal: Ref<PositionId | ''> = ref('');
-
-    const applayFilterPosition = (): void => {
-        filterPosition.value = filterPositionLocal.value;
-    };
-
-    const resetFilterPosition = (): void => {
-        filterPosition.value = '';
-        filterPositionLocal.value = '';
-    };
+    const {
+        filterGlobal: filterPosition,
+        filterLocal: filterPositionLocal,
+        changeFilter: changeFilterPosition,
+    } = useFiltersAside<PositionId>();
 
     return {
         filterPosition,
         filterPositionLocal,
-        applayFilterPosition,
-        resetFilterPosition,
+        changeFilterPosition,
     }
 });

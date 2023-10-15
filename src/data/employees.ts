@@ -112,7 +112,7 @@ export const employees: Employee[] = [
         passport: '4002123456',
     },
     {
-        full_name: 'Петров Петр петрович',
+        full_name: 'Петров Петр Петрович',
         inn: '123456789213',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',

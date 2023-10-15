@@ -8,24 +8,18 @@ import { useFilterCountryStore } from '@/stores/filterCountry';
 import { useFilterGenderStore } from '@/stores/filterGender';
 import { useFilterPositionStore } from '@/stores/filterPosition';
 import { useFilterTypeContractStore } from '@/stores/filterTypeContract';
+import type { ActionOfChange } from '@/composables/filtersCpecific';
 
-const { applayFilterCountry, resetFilterCountry } = useFilterCountryStore();
-const { applayFilterGender, resetFilterGender } = useFilterGenderStore();
-const { applayFilterPosition, resetFilterPosition } = useFilterPositionStore();
-const { applayFilterTypeContract, resetFilterTypeContract } = useFilterTypeContractStore();
+const { changeFilterCountry } = useFilterCountryStore();
+const { changeFilterGender } = useFilterGenderStore();
+const { changeFilterPosition } = useFilterPositionStore();
+const { changeFilterTypeContract } = useFilterTypeContractStore();
 
-const applyFilters = (): void => {
-    applayFilterCountry();
-    applayFilterGender();
-    applayFilterPosition();
-    applayFilterTypeContract();
-};
-
-const resetFilters = (): void => {
-    resetFilterCountry();
-    resetFilterGender();
-    resetFilterPosition();
-    resetFilterTypeContract();
+const changeFilters = (actionOfChange: ActionOfChange): void => {
+    changeFilterCountry(actionOfChange);
+    changeFilterGender(actionOfChange);
+    changeFilterPosition(actionOfChange);
+    changeFilterTypeContract(actionOfChange);
 };
 </script>
 
@@ -41,11 +35,11 @@ const resetFilters = (): void => {
         <div class="filters__btns column column_x2">
             <button 
                 class="filters__btn filters__btn_apply button button_rectangle button_animation" 
-                @click="applyFilters"
+                @click="changeFilters('applay')"
             >Применить</button>
             <button 
                 class="filters__btn filters__btn_reset button button_rectangle button_animation" 
-                @click="resetFilters"
+                @click="changeFilters('reset')"
             >Очистить</button>
         </div>
     </div>

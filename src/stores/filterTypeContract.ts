@@ -1,6 +1,10 @@
 import { ref, type Ref, computed, type ComputedRef } from 'vue';
 import { defineStore } from 'pinia';
 import type { TypeContractId } from '@/data/typeContract';
+import type { ActionOfChange } from '@/composables/filtersCpecific';
+import { useCheckType } from '@/composables/checkType';
+
+const { valueShouldBeNever } = useCheckType();
 
 export type FilterTypeContract = {
     [key in TypeContractId]?: boolean;
@@ -30,11 +34,16 @@ export const useFilterTypeContractStore = defineStore('filterTypeContract', () =
         filterTypeContractLocal.value = {};
     };
 
+    const changeFilterTypeContract = (actionOfChange: ActionOfChange): void => {
+        if (actionOfChange === 'applay') applayFilterTypeContract();
+        else if (actionOfChange === 'reset') resetFilterTypeContract();
+        else valueShouldBeNever(actionOfChange);
+    };
+
     return {
         filterTypeContract,
         filterTypeContractLocal,
         isFilterTypeContractEnabled,
-        applayFilterTypeContract,
-        resetFilterTypeContract,
+        changeFilterTypeContract,
     }
 });

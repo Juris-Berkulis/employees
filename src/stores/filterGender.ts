@@ -1,24 +1,17 @@
-import { ref, type Ref } from "vue";
 import { defineStore } from "pinia";
 import type { GenderId } from "@/data/gender";
+import { useFiltersAside } from "@/composables/filtersCpecific";
 
 export const useFilterGenderStore = defineStore('filterGender', () => {
-    const filterGender: Ref<GenderId | ''> = ref('');
-    const filterGenderLoacal: Ref<GenderId | ''> = ref('');
-
-    const applayFilterGender = (): void => {
-        filterGender.value = filterGenderLoacal.value;
-    };
-
-    const resetFilterGender = (): void => {
-        filterGender.value = '';
-        filterGenderLoacal.value = '';
-    };
+    const {
+        filterGlobal: filterGender,
+        filterLocal: filterGenderLoacal,
+        changeFilter: changeFilterGender,
+    } = useFiltersAside<GenderId>();
 
     return {
         filterGender,
         filterGenderLoacal,
-        applayFilterGender,
-        resetFilterGender,
+        changeFilterGender,
     }
 });

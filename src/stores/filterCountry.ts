@@ -1,24 +1,17 @@
-import { ref, type Ref } from "vue";
 import { defineStore } from "pinia";
 import type { CountryId } from "@/data/country";
+import { useFiltersAside } from "@/composables/filtersCpecific";
 
 export const useFilterCountryStore = defineStore('filterCountry', () => {
-    const filterCountry: Ref<CountryId | ''> = ref('');
-    const filterCountryLocal: Ref<CountryId | ''> = ref('');
-
-    const applayFilterCountry = (): void => {
-        filterCountry.value = filterCountryLocal.value;
-    };
-
-    const resetFilterCountry = (): void => {
-        filterCountry.value = '';
-        filterCountryLocal.value = '';
-    };
+    const {
+        filterGlobal: filterCountry,
+        filterLocal: filterCountryLocal,
+        changeFilter: changeFilterCountry,
+    } = useFiltersAside<CountryId>();
 
     return {
         filterCountry,
         filterCountryLocal,
-        applayFilterCountry,
-        resetFilterCountry,
+        changeFilterCountry,
     }
 });
