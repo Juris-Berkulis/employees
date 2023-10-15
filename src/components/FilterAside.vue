@@ -66,10 +66,9 @@ const resetFilters = (): void => {
 .aside {
     border-radius: 10px;
     background-color: var(--white, #ffffff);
-    box-shadow: --bsh;
+    box-shadow: $bsh-bg;
     display: flex;
     flex-direction: column;
-    gap: 30px;
 }
 
 .aside__add-employee {
@@ -81,6 +80,14 @@ const resetFilters = (): void => {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
+}
+
+.column_x1 {
+    @media (max-width: $sp-n) {
+        & {
+            grid-column: auto/span 2;
+        }
+    }
 }
 
 .column_x2 {
@@ -102,6 +109,12 @@ const resetFilters = (): void => {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
     border-top: 1px solid var(--line, #dbe4ed);
+
+    @media (max-width: $sp-n) {
+        & {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
 }
 
 .filters__btn {

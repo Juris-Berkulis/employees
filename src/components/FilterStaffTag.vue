@@ -5,15 +5,8 @@ import { staffTagList, type StaffTagId } from '@/data/staffTag';
 import { useFilterStaffTagStore } from '@/stores/filterStaffTag';
 
 const filterStaffTagStore = useFilterStaffTagStore();
-
-const {
-    resetFilterStaffTag,
-} = filterStaffTagStore;
-
-const {
-    filterStaffTag,
-    isFilterStaffTagEnabled,
-} = storeToRefs(filterStaffTagStore);
+const { resetFilterStaffTag } = filterStaffTagStore;
+const { filterStaffTag, isFilterStaffTagEnabled } = storeToRefs(filterStaffTagStore);
 
 const isActive = (id: StaffTagId): boolean | undefined => {
     return filterStaffTag.value[id]
@@ -46,7 +39,7 @@ const isActive = (id: StaffTagId): boolean | undefined => {
     flex-wrap: wrap;
     gap: 10px;
 
-    @media (max-width: $sp-s) {
+    @media (max-width: $sp-m) {
         & {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -64,7 +57,7 @@ const isActive = (id: StaffTagId): boolean | undefined => {
     }
 
     &:first-child {
-        @media (max-width: $sp-s) {
+        @media (max-width: $sp-m) {
             & {
                 grid-column: auto/span 2;
             }

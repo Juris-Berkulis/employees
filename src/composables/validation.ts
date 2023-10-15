@@ -42,12 +42,16 @@ type ValidatedObj = {
 
 export const useValidation = () => {
     const regExpForFullName = /^[А-ЯЁа-яё\-]{2,}\s{1}[А-ЯЁа-яё\-]{2,}(\s{1}[А-ЯЁа-яё\-]{2,})?$/;
-    const regExpForInn = /^\d{10}$/;
+    const regExpForInn = /^\d{12}$/;
     const minLengthForAddress: number = 5;
     const regExpForDateBirth = /^\d{2}\.\d{2}\.\d{4}$/;
     const regExpForPassport = /^\d{10}$/;
     const textForRequiredFieldError = 'Поле не заполненно';
     const textForRegExpError = 'Неверный формат';
+    const textForFullNameError = `${textForRegExpError}: Фамилия Имя Отчество (если есть)`;
+    const textForInnError = `${textForRegExpError}: 12 цифр`;
+    const textForDateBirthError = `${textForRegExpError}: DD.MM.YYYY`;
+    const textForPassportError = `${textForRegExpError}: 10 цифр`;
     const textForPastDateError = 'Дата должна быть в прошлом';
     const textForMinLengthError = (minLength: number): string => `Минимальная длина ${minLength} символов`;
 
@@ -100,11 +104,11 @@ export const useValidation = () => {
     const validatedObj: ValidatedObj = {
         fullName: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForFullName), errorText: textForRegExpError },
+            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForFullName), errorText: textForFullNameError },
         ],
         inn: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForInn), errorText: textForRegExpError },
+            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForInn), errorText: textForInnError },
         ],
         address: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
@@ -112,12 +116,12 @@ export const useValidation = () => {
         ],
         dateBirth: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForDateBirth), errorText: textForRegExpError },
+            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForDateBirth), errorText: textForDateBirthError },
             { isValid: (fieldValue) => pastDate(fieldValue), errorText: textForPastDateError },
         ],
         passport: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },
-            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForPassport), errorText: textForRegExpError },
+            { isValid: (fieldValue) => regExpMatching(fieldValue, regExpForPassport), errorText: textForPassportError },
         ],
         description: [
             { isValid: (fieldValue) => requiredField(fieldValue), errorText: textForRequiredFieldError },

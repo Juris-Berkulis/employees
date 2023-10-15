@@ -1,7 +1,11 @@
 //* screen points:
 $sp-l: 1920px;
+$sp-m: 1040px;
 $sp-s: 768px;
 $sp-n: 480px;
+
+//* box-shadow:
+$bsh-bg: 0px 7px 30px 0px rgba(42, 53, 140, 0.03);
 
 //* box-shadow parts:
 $bsh-rectangle: 0px 10px 20px 0px;
@@ -17,7 +21,4 @@ $bsh-rectangle: 0px 10px 20px 0px;
     --dark_grey: #84909b;
     --line: #dbe4ed;
     --white: #ffffff;
-
-    //* box-shadow:
-    --bsh: 0px 7px 30px 0px rgba(42, 53, 140, 0.03);
 }

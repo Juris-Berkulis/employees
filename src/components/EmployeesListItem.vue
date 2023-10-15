@@ -8,7 +8,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const pasport: ComputedRef<string> = computed(() => {
+const passport: ComputedRef<string> = computed(() => {
     return `${props.employee.passport.slice(0, 4)} ${props.employee.passport.slice(4)}`
 });
 </script>
@@ -23,7 +23,7 @@ const pasport: ComputedRef<string> = computed(() => {
     </div>
     <div class="employee__line">
         <img class="employee__flag-img" :src="employee.country.icon" :alt="employee.country.slug">
-        <p class="employee__text employee__text_upper-case">{{ employee.country.slug }} {{ pasport }}</p>
+        <p class="employee__text employee__text_upper-case">{{ employee.country.slug }} {{ passport }}</p>
         <p class="employee__text">г. {{ employee.address }}</p>
         <p class="employee__text">Дата рождения: {{ employee.date_birth }}</p>
         <p class="employee__text">Возраст: {{ employee.age }} год</p>
@@ -60,6 +60,13 @@ const pasport: ComputedRef<string> = computed(() => {
     font-style: normal;
     font-weight: 600;
     line-height: 1;
+
+    @media (max-width: $sp-n) {
+        & {
+            hyphens: auto;
+            overflow-wrap: break-word;
+        }
+    }
 }
 
 .employee__inn {
@@ -129,5 +136,6 @@ const pasport: ComputedRef<string> = computed(() => {
     font-style: normal;
     font-weight: 500;
     line-height: 120%;
+    text-align: center;
 }
 </style>

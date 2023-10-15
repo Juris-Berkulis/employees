@@ -193,6 +193,10 @@ $field-bc-error: rgba(236, 63, 63, 0.2);
     }
 
     @media (max-width: $sp-n) {
+        & {
+            row-gap: 40px;
+        }
+
         & > * {
             grid-column: auto/span 2;
         }

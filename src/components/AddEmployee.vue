@@ -47,5 +47,11 @@ const isShowModal: Ref<boolean> = ref(false);
     font-style: normal;
     font-weight: 500;
     line-height: 120%;
+
+    @media (max-width: $sp-n) {
+        & {
+            display: none;
+        }
+    }
 }
 </style>

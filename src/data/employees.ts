@@ -29,10 +29,10 @@ export interface Employee {
 export const employees: Employee[] = [
     {
         full_name: 'Константинопольский Константин Константинович',
-        inn: '1234567890',
+        inn: '123456789011',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',
-        age: 21,
+        age: 22,
         type_contract: {
             id: 3,
             title: 'СМЗ',
@@ -71,10 +71,10 @@ export const employees: Employee[] = [
     },
     {
         full_name: 'Иванов Иван Иванович',
-        inn: '1234567891',
+        inn: '123456789112',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',
-        age: 21,
+        age: 22,
         type_contract: {
             id: 1,
             title: 'ТД',
@@ -112,11 +112,11 @@ export const employees: Employee[] = [
         passport: '4002123456',
     },
     {
-        full_name: 'Константинопольский Константин Константинович',
-        inn: '1234567892',
+        full_name: 'Петров Петр петрович',
+        inn: '123456789213',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',
-        age: 21,
+        age: 22,
         type_contract: {
             id: 3,
             title: 'СМЗ',
@@ -154,11 +154,11 @@ export const employees: Employee[] = [
         passport: '4002123456',
     },
     {
-        full_name: 'Иванов Иван Иванович',
-        inn: '1234567893',
+        full_name: 'Сергеев Сергей Сергеевич',
+        inn: '123456789314',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',
-        age: 21,
+        age: 22,
         type_contract: {
             id: 2,
             title: 'ГПХ',
@@ -196,11 +196,11 @@ export const employees: Employee[] = [
         passport: '4002123456',
     },
     {
-        full_name: 'Константинопольский Константин Константинович',
-        inn: '1234567894',
+        full_name: 'Федоров Федр Федорович',
+        inn: '123456789415',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',
-        age: 21,
+        age: 22,
         type_contract: {
             id: 4,
             title: 'Кандидат',
@@ -239,10 +239,10 @@ export const employees: Employee[] = [
     },
     {
         full_name: 'Васильева Василиса Васильевна',
-        inn: '1234567895',
+        inn: '123456789516',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',
-        age: 21,
+        age: 22,
         type_contract: {
             id: 3,
             title: 'СМЗ',
@@ -281,10 +281,10 @@ export const employees: Employee[] = [
     },
     {
         full_name: 'Александрова Александра Александровна',
-        inn: '1234567896',
+        inn: '123456789617',
         address: 'Санкт-Петербург',
         date_birth: '23.06.2001',
-        age: 21,
+        age: 22,
         type_contract: {
             id: 2,
             title: 'ГПХ',

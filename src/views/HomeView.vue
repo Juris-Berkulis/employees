@@ -36,7 +36,7 @@ import FilterAside from '@/components/FilterAside.vue';
 .home-page__general {
     flex-grow: 1;
     background-color: var(--white, #ffffff);
-    box-shadow: --bsh;
+    box-shadow: $bsh-bg;
 }
 
 .home-page__search-employees {
